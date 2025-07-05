@@ -25,7 +25,7 @@
     <ul>
     <li> Establish db connection 
     <code>connection = seed.connect_to_prodev()</code> with existing db</li>
-    <li> Fetch rows using generator <code>def stream_users(limit)</code><li> 
+    <li> Fetch rows using generator <code>def stream_users(limit)</code></li> 
     </ul>
 
 ## Task 3 Objective: Create a generator to fetch and process data in batches from the users database
