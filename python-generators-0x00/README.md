@@ -25,6 +25,8 @@
 
 # Task 3 Objective: Create a generator to fetch and process data in batches from the users database
 
+# Files: 1-batch_processing.py, main.py
+
 <p>Task Breakdown </p>
 <ul>
 <li> Establish db connection <code>connection = seed.connect_to_prodev()</code> with existing db</li>
@@ -32,3 +34,16 @@
 <li>Fetch users above the age of 25, using sql WHERE statement <code>batch_processing(batch_size)</code> </li>
 <li>Fetch users apply limit <code>stream_users_in_batches(batch_size)</code> 
 </ul>
+
+# Task 4 Objective: Simulte fetching paginated data from the users database using a generator to lazily load each page
+
+# File: 2-lazy_paginate.py 
+<p>Task Breakdown</p>
+<ul>
+    <li> Establish db connection <code>connection = seed.connect_to_prodev()</code> with existing db</li>
+    <li> Fetch data from user table apply limit filter and offset for pagination <code>lazy_paginate(limit, offset)</code></li>
+ <li> 
+</ul>
+
+
+
