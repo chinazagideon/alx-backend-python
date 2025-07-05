@@ -2,7 +2,8 @@
 ## Tasks 1 Objective: create a generator that streams rows from an SQL database one by one.
 
 ### Files: python-generators-0x00/fetch.py, python-generators-0x00/seed.py 
-### Repository: alx-backend-python
+### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "alx-backend-python repo")
+
 <p>Task Breakdown</p>
     <ul>
     <li> Setup Database Connection:</li>
@@ -16,7 +17,8 @@
 ## Task 2 Objective: create a generator that streams rows from an SQL database one by one.
 
 ### File: python-generators-0x00/0-stream_users.py
-### Repository: alx-backend-python
+### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "alx-backend-python repo")
+
 
     <p> Task Breakdown</p>
     <ul>
@@ -28,7 +30,7 @@
 ## Task 3 Objective: Create a generator to fetch and process data in batches from the users database
 
 ### Files: python-generators-0x00/1-batch_processing.py, main.py
-### Repository: alx-backend-python
+### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "alx-backend-python repo")
 
 <p>Task Breakdown </p>
 <ul>
@@ -41,7 +43,8 @@
 ## Task 4 Objective: Simulte fetching paginated data from the users database using a generator to lazily load each page
 
 ### File: python-generators-0x00/2-lazy_paginate.py 
-### Repository: alx-backend-python
+### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "alx-backend-python repo")
+
 
 <p>Task Breakdown</p>
 <ul>
@@ -54,10 +57,10 @@
 ## Task 5: to use a generator to compute a memory-efficient aggregate function i.e average age for a large dataset
 
 ### File: python-generators-0x00/4-stream_ages.py
-## Repository: alx-backend-python
+### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "alx-backend-python repo")
 
 <ul>
-<li>Calculate the average age in the </li>
+<li>Stream age data in the user table <code>stream_user_ages()</code></li>
 
 
 
