@@ -21,3 +21,5 @@ def stream_users_in_batches(batch_size=10):
 if __name__ == "__main__":
     for user in islice(batch_processing(10), 10):
         print(user)
+    for stream_user in islice(stream_users_in_batches(10), 10):
+        print(stream_user)
