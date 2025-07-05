@@ -4,8 +4,6 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import seed as seed
 
-# print(asyncio.run(fetch_data("https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/misc/2024/12/3888260f107e3701e3cd81af49ef997cf70b6395.csv")))
-
 # Open a file and return the content
 def open_file(file_path):
     with open(file_path, 'r') as file:
