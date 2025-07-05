@@ -2,6 +2,7 @@ from itertools import islice, chain
 import seed as seed
 connection = seed.connect_to_prodev()
 
+# Stream users from the user_data table
 def stream_users():
     cursor = connection.cursor()
     cursor.execute(f"SELECT * FROM user_data")

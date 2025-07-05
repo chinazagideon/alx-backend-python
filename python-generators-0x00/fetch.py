@@ -6,10 +6,12 @@ import seed as seed
 
 # print(asyncio.run(fetch_data("https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/misc/2024/12/3888260f107e3701e3cd81af49ef997cf70b6395.csv")))
 
+# Open a file and return the content
 def open_file(file_path):
     with open(file_path, 'r') as file:
         return file.read()
 
+# Verify that data was inserted correctly
 def verify_inserted_data():
     """Verify that data was inserted correctly"""
     connection = seed.connect_to_prodev()
@@ -27,6 +29,7 @@ def verify_inserted_data():
     cursor.close()
     connection.close()
 
+# Parse and insert CSV data into the user_data table
 def parse_and_insert_csv_data(path):
     # Connect to database
     connection = seed.connect_to_prodev()
@@ -58,6 +61,7 @@ def parse_and_insert_csv_data(path):
     connection.close()
     print("Data insertion completed!")
 
+# Delete data from the user_data table
 def delete_data():
     connection = seed.connect_to_prodev()
     cursor = connection.cursor()

@@ -11,6 +11,7 @@ def lazy_paginate(page_size=10, offset=0):
     connection.close()
     return rows
 
+# Paginate users
 def paginate_users(page_size, offset):
     for user in islice(lazy_paginate(page_size, offset), page_size):
         yield user
