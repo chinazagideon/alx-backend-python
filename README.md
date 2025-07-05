@@ -1,8 +1,3 @@
-# ALX Python Tasks
-
-> **Note**: This README is automatically generated from `python-generators-0x00/README.md`
-
----
 # Python Generators
 ## Tasks 1 Objective: create a generator that streams rows from an SQL database one by one.
 
