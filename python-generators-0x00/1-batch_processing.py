@@ -1,4 +1,9 @@
 from itertools import islice
+import sys
+import os
+
+# Add the current directory to Python path to find seed.py
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import seed as seed
 connection = seed.connect_to_prodev()
 
@@ -17,9 +22,3 @@ def stream_users_in_batches(batch_size=10):
         yield row
     cursor.close()
     connection.close()
-
-if __name__ == "__main__":
-    for user in islice(batch_processing(10), 10):
-        print(user)
-    for stream_user in islice(stream_users_in_batches(10), 10):
-        print(stream_user)
