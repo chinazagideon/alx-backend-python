@@ -1,8 +1,8 @@
 # Python Generators
 ## Tasks 1 Objective: create a generator that streams rows from an SQL database one by one.
 
-## Files: fetch.py, seed.py 
-## Repository: 
+### Files: python-generators-0x00/fetch.py, python-generators-0x00/seed.py 
+### Repository: alx-backend-python
 <p>Task Breakdown</p>
     <ul>
     <li> Setup Database Connection:</li>
@@ -15,7 +15,9 @@
 
 ## Task 2 Objective: create a generator that streams rows from an SQL database one by one.
 
-# File: 0-stream_users.py
+### File: python-generators-0x00/0-stream_users.py
+### Repository: alx-backend-python
+
     <p> Task Breakdown</p>
     <ul>
     <li> Establish db connection <code>connection = seed.connect_to_prodev()</code> with existing db</li>
@@ -23,9 +25,10 @@
     <li> 
     </ul>
 
-# Task 3 Objective: Create a generator to fetch and process data in batches from the users database
+## Task 3 Objective: Create a generator to fetch and process data in batches from the users database
 
-# Files: 1-batch_processing.py, main.py
+### Files: python-generators-0x00/1-batch_processing.py, main.py
+### Repository: alx-backend-python
 
 <p>Task Breakdown </p>
 <ul>
@@ -35,15 +38,26 @@
 <li>Fetch users apply limit <code>stream_users_in_batches(batch_size)</code> 
 </ul>
 
-# Task 4 Objective: Simulte fetching paginated data from the users database using a generator to lazily load each page
+## Task 4 Objective: Simulte fetching paginated data from the users database using a generator to lazily load each page
 
-# File: 2-lazy_paginate.py 
+### File: python-generators-0x00/2-lazy_paginate.py 
+### Repository: alx-backend-python
+
 <p>Task Breakdown</p>
 <ul>
     <li> Establish db connection <code>connection = seed.connect_to_prodev()</code> with existing db</li>
     <li> Fetch data from user table apply limit filter and offset for pagination <code>lazy_paginate(limit, offset)</code></li>
+    <li> Paginate data apply pagesize and offest, return response.</li>
  <li> 
 </ul>
+
+## Task 5: to use a generator to compute a memory-efficient aggregate function i.e average age for a large dataset
+
+### File: python-generators-0x00/4-stream_ages.py
+## Repository: alx-backend-python
+
+<ul>
+<li>Calculate the average age in the </li>
 
 
 
