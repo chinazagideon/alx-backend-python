@@ -21,11 +21,10 @@
 ### File: python-generators-0x00/0-stream_users.py
 ### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "alx-backend-python repo")
 
-
-    <p> Task Breakdown</p>
+<p> Task Breakdown</p>
     <ul>
     <li> Establish db connection <code>connection = seed.connect_to_prodev()</code> with existing db</li>
-    <li> Fetch rows using generator <code>def stream_users(limit)</>
+    <li> Fetch rows using generator <code>def stream_users(limit)
     <li> 
     </ul>
 
