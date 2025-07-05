@@ -10,13 +10,15 @@
 ### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "alx-backend-python repo")
 
 <p>Task Breakdown</p>
-    <ul>
+<ul>
     <li> Setup Database Connection:</li>
     <li> Create entity and define attributes 
-        (<strong>entity:</strong> user_data, <strong>attributes:</strong> id pk, name varchar NOT NULL, email varchar NOT NULL, age, decimal NOT NULL)</li>
-    <li> Seed table, data source:  
-    [user_data.csv](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/misc/2024/12/3888260f107e3701e3cd81af49ef997cf70b6395.csv "user_data csv") </li>
-    </ul>
+        (<strong>entity:</strong> user_data, <strong>attributes:</strong> id pk, name varchar NOT NULL, email varchar NOT NULL, age, decimal NOT NULL)
+    </li>
+    <li> Seed table, data:  
+    [user_data.csv](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/misc/2024/12/3888260f107e3701e3cd81af49ef997cf70b6395.csv "user_data csv") 
+    </li>
+</ul>
 
 
 ## Task 2 Objective: create a generator that streams rows from an SQL database one by one.
@@ -66,6 +68,9 @@
 
 <ul>
 <li>Stream age data in the user table <code>stream_user_ages()</code></li>
+<li>Loop through the age data to calculate the average without using sql AVERAGE statement</li>
+<li>Print the average age using a generator function</li>
+<li>
 
 
 
