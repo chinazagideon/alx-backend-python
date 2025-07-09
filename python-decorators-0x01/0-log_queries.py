@@ -2,6 +2,7 @@ import logging
 import os
 import time
 log_filename = "log_queries.log"
+import datetime
 
 # 1. Configure the logger
 # Set up a basic configuration to log messages to 'file_operations.log'
@@ -22,7 +23,7 @@ def log_queries(type):
             process_query = func(args)
             end_time = time.perf_counter_ns();
             duration = end_time - start_time;
-            log_content = f"[{type}]: {args}, duration: {duration}s"
+            log_content = f"[{type}]: {args}, duration: {duration}s, {datetime.datetime.now()}"
             # print(log_content)
             safe_file_write(log_filename, log_content)
             return process_query
