@@ -4,14 +4,9 @@ import time
 import mysql.connector
 from datetime import datetime
 log_rate = "daily"
-config = {
-  'user': 'root',
-  'password': 'root',
-  'host': 'localhost',
-  'unix_socket': '/Applications/MAMP/tmp/mysql/mysql.sock',
-  'database': 'ALX_prodev',
-  'raise_on_warnings': True
-}
+import json
+with open('python-decorators-0x01/config.json', 'r') as f:
+    config = json.load(f)
 
 #connects mysql server db
 def connect_db(config):
