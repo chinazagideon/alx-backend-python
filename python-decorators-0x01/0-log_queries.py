@@ -1,8 +1,22 @@
 import logging
 import os
 import time
+import mysql.connector
 from datetime import datetime
 log_rate = "daily"
+config = {
+  'user': 'root',
+  'password': 'root',
+  'host': 'localhost',
+  'unix_socket': '/Applications/MAMP/tmp/mysql/mysql.sock',
+  'database': 'ALX_prodev',
+  'raise_on_warnings': True
+}
+
+#connects mysql server db
+def connect_db(config):
+    return mysql.connector.connect(**config)
+connection = connect_db(config)
 
 
 # 1. Configure the logger
