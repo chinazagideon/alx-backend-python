@@ -1,16 +1,19 @@
 # Python Decorators
 ## Project Description
 <p>This project focuses on mastering Python decorators to enhance database operations in Python applications. Through hands-on tasks, learners will create custom decorators to log queries, handle connections, manage transactions, retry failed operations, and cache query results. The tasks are designed to simulate real-world challenges, providing learners with an in-depth understanding of Python’s capabilities for dynamic and reusable code in database management.</p>
+<p></p>
 
 ### Task 1: Logging database Queries
 #### Files: /query_script.py, 0-log_queries.py
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
+<p></p>
 
 ### Task 1: Logging database Queries
 <p>Objective: create a decorator that logs database queries executed by any function</p>
 
 #### Files: /query_script.py, /0-log_queries.py [0-log_queries.py](https://github.com/chinazagideon/alx-backend-python/blob/main/python-decorators-0x01/0-log_queries.py "0-log_queries")
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
+<p></p>
 
 ### Task 2: Handle Database Connections with a Decorator
 
@@ -18,6 +21,7 @@
 
 #### File: /1-with_db_connection.py
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
+<p></p>
 
 ### Task 3: Transaction Management Decorator
 
@@ -25,6 +29,7 @@
 
 #### File: /2-transactional.py
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
+<p></p>
 
 
 ### Task 4: Using Decorators to retry database queries
@@ -33,6 +38,8 @@
 
 #### File: /3-retry_on_failure.py
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
+
+<p></p>
 
 ### Task 5: Using decorators to cache Database Queries
 
