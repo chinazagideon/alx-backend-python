@@ -6,7 +6,7 @@
 ### Task 1: Logging database Queries <hr/>
 <p>Objective: create a decorator that logs database queries executed by any function</p>
 
-#### Files: /query_script.py, /0-log_queries.py [0-log_queries.py](https://github.com/chinazagideon/alx-backend-python/blob/main/python-decorators-0x01/0-log_queries.py "0-log_queries")
+#### Files: /query_script.py, /[0-log_queries.py](https://github.com/chinazagideon/alx-backend-python/blob/main/python-decorators-0x01/0-log_queries.py "0-log_queries")
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
 
 
