@@ -6,42 +6,40 @@
 ### Task 1: Logging database Queries
 #### Files: /query_script.py, 0-log_queries.py
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
-<p></p>
 
-### Task 1: Logging database Queries
+
+### Task 1: Logging database Queries <hr/>
 <p>Objective: create a decorator that logs database queries executed by any function</p>
 
 #### Files: /query_script.py, /0-log_queries.py [0-log_queries.py](https://github.com/chinazagideon/alx-backend-python/blob/main/python-decorators-0x01/0-log_queries.py "0-log_queries")
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
-<p></p>
 
-### Task 2: Handle Database Connections with a Decorator
+
+### Task 2: Handle Database Connections with a Decorator</hr>
 
 <p>Objective: create a decorator that automatically handles opening and closing database connections</p>
 
 #### File: /1-with_db_connection.py
-#### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
-<p></p>
+#### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")<br/>
 
-### Task 3: Transaction Management Decorator
+
+### Task 3: Transaction Management Decorator <hr/>
 
 <p>Objective: create a decorator that manages database transactions by automatically committing or rolling back changes</p> 
 
 #### File: /2-transactional.py
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
-<p></p>
 
 
-### Task 4: Using Decorators to retry database queries
+
+### Task 4: Using Decorators to retry database queries <hr/>
 
 <p>Objective: create a decorator that retries database operations if they fail due to transient errors</p> 
 
 #### File: /3-retry_on_failure.py
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
 
-<p></p>
-
-### Task 5: Using decorators to cache Database Queries
+### Task 5: Using decorators to cache Database Queries<hr/>
 
 <p>Objective: create a decorator that caches the results of a database queries inorder to avoid redundant calls</p> 
 
