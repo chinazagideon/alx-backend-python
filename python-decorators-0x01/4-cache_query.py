@@ -5,8 +5,10 @@ import hashlib
 import time
 from itertools import islice
 
+# Cache for query results
 query_cache = {}
 
+# Load the with_db_connection module
 spec = importlib.util.spec_from_file_location(
     "with_db_connection",
     os.path.join(os.path.dirname(__file__), "1-with_db_connection.py"),
@@ -15,6 +17,7 @@ with_db_connection_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(with_db_connection_module)
 with_db_connection = with_db_connection_module.with_db_connection
 
+# Decorator to cache the result of a function.
 def cache_query(func):
     """
     Decorator to cache the result of a function.
@@ -33,6 +36,7 @@ def cache_query(func):
         return result
     return wrapper
 
+# Fetch users with cache
 @with_db_connection
 @cache_query
 def fetch_users_with_cache(conn, query):

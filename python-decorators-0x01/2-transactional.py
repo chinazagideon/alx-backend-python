@@ -12,7 +12,12 @@ with_db_connection_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(with_db_connection_module)
 with_db_connection = with_db_connection_module.with_db_connection
 
+# Decorator to wrap a function in a transaction.
 def transactional(func):
+    """
+    Decorator to wrap a function in a transaction.
+    """
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
         conn = args[0]
         try: 
@@ -27,6 +32,7 @@ def transactional(func):
             conn.close()
     return wrapper
 
+# Update user's email with automatic transaction handling
 @with_db_connection
 @transactional
 def update_user_email(conn, user_id, new_email):

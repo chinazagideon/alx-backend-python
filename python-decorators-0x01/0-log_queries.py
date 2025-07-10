@@ -5,10 +5,13 @@ import mysql.connector
 from datetime import datetime
 log_rate = "daily"
 import json
+import functools
+
+# Load the mysql config file
 with open('python-decorators-0x01/config.json', 'r') as f:
     config = json.load(f)
 
-#connects mysql server db
+# Connects to mysql server db
 def connect_db(config):
     return mysql.connector.connect(**config)
 connection = connect_db(config)
@@ -23,11 +26,13 @@ logging.basicConfig(filename="log_queries.log", level=logging.INFO, format='%(as
 # Get a logger instance
 logger = logging.getLogger(__name__)
 
+# Decorator to log queries and their execution time.
 def log_queries(type):
     """
     Decorator to log queries and their execution time.
     """
     def decorator(func):
+        @functools.wraps(func)
         def wrapper(args):
             start_time = time.perf_counter_ns();
             process_query = func(args)
@@ -42,6 +47,7 @@ def log_queries(type):
     return decorator
 
 
+# Attempts to write content to a file, logging success or failure.
 def safe_file_write(filename, content):
     """
     Attempts to write content to a file, logging success or failure.
@@ -58,6 +64,7 @@ def safe_file_write(filename, content):
         logger.critical(f"An unexpected error occurred during file write for {filename}: {e}")
         print(f"An unexpected error occurred. Check {filename} for critical errors.")
 
+# Attempts to read content from a file, logging success or failure.
 def safe_file_read(filename):
     """
     Attempts to read content from a file, logging success or failure.
@@ -81,6 +88,9 @@ def safe_file_read(filename):
         logger.critical(f"An unexpected error occurred during file read for {filename}: {e}")
         print(f"An unexpected error occurred. Check {filename} for critical errors.")
         return None
+    
+
+# Generate a log filename with a timestamp.
 def generate_log_filename(filename, extension, log_rate):
     """
     Generate a log filename with a timestamp.

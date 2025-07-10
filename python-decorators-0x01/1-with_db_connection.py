@@ -3,13 +3,16 @@ from itertools import islice
 import mysql.connector
 import json
 
+# Load the mysql config file
 with open('python-decorators-0x01/config.json', 'r') as f:
     config = json.load(f)
 
+# Decorator to connect to the database and execute a function.
 def with_db_connection(func):
    """
    Decorator to connect to the database and execute a function.
    """
+   @functools.wraps(func)
    def wrapper(*args, **kwargs):
       connection = connect_db(config)
       cursor = connection.cursor()
@@ -19,12 +22,14 @@ def with_db_connection(func):
       return result
    return wrapper
 
+# Connect to the database.
 def connect_db(config):
    """
    Connect to the database.
    """
    return mysql.connector.connect(**config)
 
+# Get a user by their ID.
 @with_db_connection 
 def get_user_by_id(conn, user_id): 
    """

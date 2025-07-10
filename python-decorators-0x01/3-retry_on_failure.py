@@ -3,6 +3,7 @@ import os
 import functools
 import time
 
+# Load the with_db_connection module
 spec = importlib.util.spec_from_file_location(
     "with_db_connection",
     os.path.join(os.path.dirname(__file__), "1-with_db_connection.py"),
@@ -11,6 +12,7 @@ with_db_connection_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(with_db_connection_module)
 with_db_connection = with_db_connection_module.with_db_connection
 
+# Decorator to retry a db operation on failure if they fail due to transient errors
 def retry_on_failure(retries=3, delay=1):
     """
     Decorator to retry a db operation on failure if they fail due to transient errors
