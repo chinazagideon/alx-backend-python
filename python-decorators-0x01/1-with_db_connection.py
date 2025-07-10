@@ -1,4 +1,5 @@
 import functools
+from itertools import islice
 import mysql.connector
 import json
 
@@ -12,7 +13,7 @@ def with_db_connection(func):
    def wrapper(*args, **kwargs):
       connection = connect_db(config)
       cursor = connection.cursor()
-      result = func(connection, *args)
+      result = func(connection, *args, **kwargs)
       cursor.close()
       connection.close()
       return result
@@ -31,6 +32,6 @@ def get_user_by_id(conn, user_id):
    """
    cursor = conn.cursor()   
    cursor.execute("SELECT * FROM user_data WHERE user_id = %s", (user_id,)) 
-   return cursor.fetchone() 
+   return cursor.fetchone()
 
-print(get_user_by_id(1))
+# print(get_user_by_id(1))
