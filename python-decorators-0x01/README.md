@@ -15,7 +15,7 @@
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
 
 
-### Task 2: Handle Database Connections with a Decorator </hr>
+### Task 2: Handle Database Connections with a Decorator <hr/>
 
 <p>Objective: create a decorator that automatically handles opening and closing database connections</p>
 
