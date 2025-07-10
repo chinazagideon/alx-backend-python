@@ -13,7 +13,7 @@ with_db_connection = with_db_connection_module.with_db_connection
 
 def retry_on_failure(retries=3, delay=1):
     """
-    Decorator to retry a db operation on failure.
+    Decorator to retry a db operation on failure if they fail due to transient errors
     """
     def decorator(func):
         @functools.wraps(func)
