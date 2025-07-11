@@ -56,7 +56,8 @@ def generate_data(iteratable):
 # make datebase call using a context manager function
 with DatabaseConnection() as db_connect:
     cursor = db_connect.cursor
-    cursor.execute("SELECT * FROM user_data")
+    # cursor.execute("SELECT * FROM user_data")
+    cursor.execute("SELECT * FROM users")
     rows = cursor.fetchall()
     for row in islice(generate_data(rows), 30):
         print(f"{row}\n")
