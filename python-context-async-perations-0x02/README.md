@@ -7,7 +7,7 @@
 #### Director: /python-context-async-perations-0x02
 #### Repository: [alx-backend-python](https://github.com/chinazagideon/alx-backend-python "repository link")
 
-### Task 2: custom class based context manager for Database connection <hr/>
+### Task 2: Reusable Query Context Manager <hr/>
 <p>Objective: create a reusable context manager that takes a query as input and executes it, managing both connection and the query execution</p>
 
 #### Files: /0-databaseconnection.py

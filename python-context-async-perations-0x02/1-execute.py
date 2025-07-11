@@ -54,14 +54,14 @@ def generate_rows(iteratable):
 
 # execute query using with
 # TEST CASE ONE age > 25
-with ExecuteQuery(query="SELECT * FROM user_data WHERE age > 25") as data: #assign context object to data
+with ExecuteQuery(query="SELECT * FROM users WHERE age > 25") as data: #assign context object to data
     exc_query = generate_rows(data.results) #assign results and generate each row using a generator
     for users in (islice(exc_query, 10)): #
         print (users)
 
 # execute query using with
 # TEST CASE TWO age < 25
-with ExecuteQuery(query="SELECT * FROM user_data WHERE age < 25") as data: #assign context object to data
+with ExecuteQuery(query="SELECT * FROM users WHERE age < 25") as data: #assign context object to data
     exc_query = generate_rows(data.results) #assign results and generate each row using a generator
     for users in (islice(exc_query, 10)): #
         print (users)
