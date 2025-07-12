@@ -1,7 +1,5 @@
 from contextlib import contextmanager
-import functools
 from itertools import islice
-from os import pread
 import mysql.connector
 import json
 
