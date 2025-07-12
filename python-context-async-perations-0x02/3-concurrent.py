@@ -109,16 +109,27 @@ async def fetch_data(conn, query):
     except Exception as exc:
         logger.error(f"Error fetching data: {type(exc).__name__}: {exc}")
         return False
-async def async_fetch_users(conn):
+    
+
+def add_connection(func):
+    async def wrapper(*args, **kwargs):
+        async with aiosqlite.connect(MY_DATABASE) as mydb:
+            return await func(mydb, *args, **kwargs)
+    return wrapper
+    
+# @add_connection
+async def async_fetch_users():
     """Fetch users from the database."""
     try:
+        
         cursor = await conn.execute("SELECT * FROM users")
         results = await cursor.fetchall()
         return results
     except Exception as exc:
         logger.error(f"Error fetching users: {type(exc).__name__}: {exc}")
         return False
-async def async_fetch_older_users(conn):
+# @add_connection
+async def async_fetch_older_users():
     """Fetch older users from the database."""
     try:
         cursor = await conn.execute("SELECT * FROM users WHERE age > 30")
@@ -128,7 +139,7 @@ async def async_fetch_older_users(conn):
         logger.error(f"Error fetching older users: {type(exc).__name__}: {exc}")
         return False
 
-async def main():
+async def fetch_concurrently():
     logger.info("Starting concurrent CSV processing task")
     
     # Clean up previous database file if it exists for a fresh start
@@ -193,6 +204,6 @@ async def main():
     
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(fetch_concurrently())
 
 
