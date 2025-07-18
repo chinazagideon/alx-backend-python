@@ -25,4 +25,27 @@ class TestAccessNestedMap(unittest.TestCase):
         # the test method body is exactly 1 line long (excl comments/docstrings)
         result = access_nested_map(nested_map, path)
         self.assertEqual(result, expected_result)
+
+    @parameterized.expand([
+        #Test 1: Empty map, trying to access non-existent key
+        # Expected KeyError message 'a'
+        ({}, ("a", ), "a"),
+        #Test 2: path leads to a non dict value
+        ({"a": 1}, ("a", "b"), "b")
+    ])
+    def test_access_nested_map_exception(self, nested_map, path, expected_key_in_error):
+        """
+        test that nested map raises a KeyError with the expected message 
+        """
+
+        #construct a RegEx to match the exact string representation of the key
+        expected_message_regex = r"^'" + str(expected_key_in_error) + r"'$"
+
+        with self.assertRaisesRegex(KeyError, expected_message_regex):
+            access_nested_map(nested_map, path) #call function under test
+
+
+
+
+        
         
