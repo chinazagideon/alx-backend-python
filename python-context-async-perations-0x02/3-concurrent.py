@@ -118,10 +118,10 @@ def add_connection(func):
     return wrapper
     
 # @add_connection
-async def async_fetch_users():
+async def async_fetch_users(conn):
     """Fetch users from the database."""
     try:
-        
+        # conn = args[0]  
         cursor = await conn.execute("SELECT * FROM users")
         results = await cursor.fetchall()
         return results
@@ -129,9 +129,10 @@ async def async_fetch_users():
         logger.error(f"Error fetching users: {type(exc).__name__}: {exc}")
         return False
 # @add_connection
-async def async_fetch_older_users():
+async def async_fetch_older_users(conn):
     """Fetch older users from the database."""
     try:
+        # conn = args[0]
         cursor = await conn.execute("SELECT * FROM users WHERE age > 30")
         results = await cursor.fetchall()
         return results
@@ -176,8 +177,8 @@ async def fetch_concurrently():
                         total_failed += failed
                         total_processed += len(batch)
                         
-                        # logger.info(f"Batch {i//BATCH_SIZE + 1} of chunk {chunk_num}: "
-                        #           f"{successful} successful, {failed} failed")
+                        logger.info(f"Batch {i//BATCH_SIZE + 1} of chunk {chunk_num}: "
+                                  f"{successful} successful, {failed} failed")
                         
                         # Small delay to prevent overwhelming the database
                         await asyncio.sleep(0.01)

@@ -116,3 +116,11 @@ ehthumbs.db
 Thumbs.db
 env
 .env
+
+GITHUB_ACTIONS_README.md
+*.log
+*.db
+.env
+*.env
+__pycache__
+*/__pycache__
