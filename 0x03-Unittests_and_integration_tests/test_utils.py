@@ -42,13 +42,10 @@ class TestMemoize(unittest.TestCase):
         with patch.object(TestClass, "a_method", return_value=100) as mock_a_method:
             # instantiate TestClass
             test_class_instance = TestClass()
-
             # access the contestants method, with memoize to cache result after first contact
             first_access_result = test_class_instance.a_property
-
             # second access, get cached result
             second_access_result = test_class_instance.a_property
-
             # assertion
             # assert contestants is called only once
             mock_a_method.assert_called_once_with()
@@ -69,7 +66,6 @@ class TestGetJson(unittest.TestCase):
     """
     Unittest for the utils.get_json function
     """
-
     # @parameterized.expand([]) before @patch
     # for patch to recieve all test cases created by parameterized
     @parameterized.expand(
@@ -84,18 +80,14 @@ class TestGetJson(unittest.TestCase):
         """
         Test that get_json returns expected results and the request.get was called correctly
         """
-
         # configure mock for response object returns by requests.get
         mock_response_object = MagicMock()
         mock_response_object.json.return_value = test_payloads
-
         # return the value for the mocked requests.get
         # NB: calls to requests.get returns mock_response_object
         magic_get.return_value = mock_response_object
-
         # call test function
         actual_result = get_json(test_url)
-
         # make assertions
         # asset the test call was with the valid url
         magic_get.assert_called_once_with(test_url)
@@ -108,7 +100,6 @@ class TestAccessNestedMap(unittest.TestCase):
     """
     Unit tests for utils.access.nested_map function
     """
-
     @parameterized.expand(
         [
             # Test case 1: simple top-level access
@@ -123,7 +114,6 @@ class TestAccessNestedMap(unittest.TestCase):
         """
         Test that access_nested_map returns the  expected results for given inputs
         """
-
         # the test method body is exactly 1 line long (excl comments/docstrings)
         result = access_nested_map(nested_map, path)
         self.assertEqual(result, expected_result)
@@ -141,11 +131,8 @@ class TestAccessNestedMap(unittest.TestCase):
         """
         test that nested map raises a KeyError with the expected message
         """
-
         # construct a RegEx to match the exact string representation of the key
         expected_message_regex = r"^'" + str(expected_key_in_error) + r"'$"
 
         with self.assertRaisesRegex(KeyError, expected_message_regex):
             access_nested_map(nested_map, path)  # call function under test
-
-
