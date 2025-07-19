@@ -43,28 +43,28 @@ class TestMemoize(unittest.TestCase):
         with patch.object(
             TestClass, "a_method", return_value=100
             ) as mock_a_method:
-                # instantiate TestClass
-                test_class_instance = TestClass()
-                # access the contestants method, with memoize to cache result after first contact
-                first_access_result = test_class_instance.a_property
-                # second access, get cached result
-                second_access_result = test_class_instance.a_property
-                # assertion
-                # assert contestants is called only once
-                mock_a_method.assert_called_once_with()
+            # instantiate TestClass
+            test_class_instance = TestClass()
+            # access the contestants method, with memoize to cache result after first contact
+            first_access_result = test_class_instance.a_property
+            # second access, get cached result
+            second_access_result = test_class_instance.a_property
+            # assertion
+            # assert contestants is called only once
+            mock_a_method.assert_called_once_with()
 
-                # test the result, test that both response match
-                self.assertEqual(first_access_result, 100)
-                self.assertEqual(second_access_result, 100)
+            # test the result, test that both response match
+            self.assertEqual(first_access_result, 100)
+            self.assertEqual(second_access_result, 100)
 
-                # verify internal memoized attribute exists in memory and holds
-                # the correct value
-                self.assertTrue(
-                    hasattr(test_class_instance, "_a_property")  # FIX: Corrected to _a_property
-                )
-                self.assertEqual(
-                    getattr(test_class_instance, "_a_property"), 100  # FIX: Access memoized attribute
-                )
+            # verify internal memoized attribute exists in memory and holds
+            # the correct value
+            self.assertTrue(
+                hasattr(test_class_instance, "_a_property")  # FIX: Corrected to _a_property
+            )
+            self.assertEqual(
+                getattr(test_class_instance, "_a_property"), 100  # FIX: Access memoized attribute
+            )
 
 
 class TestGetJson(unittest.TestCase):
@@ -133,6 +133,7 @@ class TestAccessNestedMap(unittest.TestCase):
             ({"a": 1}, ("a", "b"), "b"),
         ]
     )
+
     def test_access_nested_map_exception(self, nested_map, path, expected_key_in_error):
         """
         test that nested map raises a KeyError with the expected message
