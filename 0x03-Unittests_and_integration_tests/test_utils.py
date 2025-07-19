@@ -36,7 +36,6 @@ class TestMemoize(unittest.TestCase):
                 a_property property decorated with @memoize
                 calls calls 'a_method' only once
                 """
-                
                 return self.a_method()
 
         # use patch object to mock method property of TestClass
@@ -59,8 +58,12 @@ class TestMemoize(unittest.TestCase):
             self.assertEqual(second_access_result, 100)
 
             # verify internal memoize attribute exists in memory and holds the correct value
-            self.assertTrue(hasattr(test_class_instance, "a_method"))
-            self.assertEqual(getattr(test_class_instance, "a_property"), 100)
+            self.assertTrue(
+                hasattr(test_class_instance, "a_method")
+                )
+            self.assertEqual(
+                getattr(test_class_instance, "a_property"), 100
+                )
 
 class TestGetJson(unittest.TestCase):
     """
