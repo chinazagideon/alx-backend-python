@@ -98,42 +98,42 @@ class TestMemozie(unittest.TestCase):
 
         # inner class definition
         class TestClass:
-            def scores(self):
+            def a_method(self):
                 """ mock method """
                 # Overwritten by mock
                 return 43
             
             @memoize
-            def contestants(self):
+            def a_property(self):
                 """
-                contestants property decorated with @memoize
-                calls calls 'scores' only once
+                a_property property decorated with @memoize
+                calls calls 'a_method' only once
                 """
-                # return scores
-                return self.scores()
+                # return a_property
+                return self.a_method()
             
-        # use patch.object to mock scores property of TestClass
-        with patch.object(TestClass, 'scores', return_value=100) as mock_scores_method:
+        # use patch.object to mock a_method property of TestClass
+        with patch.object(TestClass, 'a_method', return_value=100) as mock_a_method:
             # instantiate TestClass 
             test_class_instance = TestClass()
 
             # access the contestants method, with memoize to cache result after first contact
-            first_contestants_result = test_class_instance.contestants
+            first_access_result = test_class_instance.a_property
 
             #second access, get cached result
-            second_contestants_result = test_class_instance.contestants
+            second_access_result = test_class_instance.a_property
 
             # assertion
             # assert contestants is called only once
-            mock_scores_method.assert_called_once_with()
+            mock_a_method.assert_called_once_with()
 
             #test the result, test that both response match
-            self.assertEqual(first_contestants_result, 100)
-            self.assertEqual(second_contestants_result, 100)
+            self.assertEqual(first_access_result, 100)
+            self.assertEqual(second_access_result, 100)
             
             # verify internal memoize attribute exists in memory and holds the correct value
-            self.assertTrue(hasattr(test_class_instance, 'scores'))
-            self.assertEqual(getattr(test_class_instance, 'contestants'), 100)
+            self.assertTrue(hasattr(test_class_instance, 'a_method'))
+            self.assertEqual(getattr(test_class_instance, 'a_property'), 100)
 
 # boiler plate
 if __name__ == "__main__":
