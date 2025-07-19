@@ -124,3 +124,11 @@ GITHUB_ACTIONS_README.md
 *.env
 __pycache__
 */__pycache__
+.vscode
+.idea
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+ehthumbs.db
+Thumbs.db

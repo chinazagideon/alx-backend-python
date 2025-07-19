@@ -57,13 +57,9 @@ class TestGetJson(unittest.TestCase):
     #for patch to recieve all test cases created by parameterized 
     @parameterized.expand([
         ("http://example.com", {"payload": True}),
-        ("http://herold.com", {"payload": False})
+        ("http://herold.com", {"payload": False}),
     ])
-
-    # Patch 'requests.get' where its looked up in utils.py
-    # MagicMock as the last args
-    # test method, after parameterized arguments
-    
+    # Patch 'requests.get' where its looked up in utils.py  
     @patch('utils.requests.get') 
     def test_get_json (self, test_url: str, test_payloads: dict, magic_get: MagicMock):
         """
