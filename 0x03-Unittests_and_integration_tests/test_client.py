@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-
+"""
+Unit tests for GithubOrgClient the client module.
+This module contains tests for test public repos, 
+"""
 from contextlib import contextmanager
 from os import name
 import unittest
@@ -11,11 +14,14 @@ from parameterized import parameterized
 
 class TestGithubOrgClient(unittest.TestCase):
     """
-    test for clients.TestGithubOrgClient class
+    Test for clients.TestGithubOrgClient class
     """
 
     @staticmethod
     def generate_mock (repos_obj):
+            """
+            Generate repos name from request payload
+            """
             for obj in repos_obj:
                 yield obj
 
@@ -24,7 +30,6 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         Test client.public_repos function
         """
-        
         # define the mock data for the list of repositories that get_json will return
         mock_repos_payload = [
             {"name": "alx-backend", "license": {"key": "mit"}},
@@ -59,7 +64,6 @@ class TestGithubOrgClient(unittest.TestCase):
             # call public_repos_url 
             actual_public_repos_list = client.public_repos()
             # print(f"actual_public_repos_list: {actual_public_repos_list}")
-
 
             # assert public_repos_url as called exactly once
             mock_public_repos_url_object.assert_called_once()
