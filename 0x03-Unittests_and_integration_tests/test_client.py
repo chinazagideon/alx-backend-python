@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from contextlib import contextmanager
+from os import name
 import unittest
 
 from unittest.mock import mock_open, patch, MagicMock, PropertyMock
@@ -11,6 +13,65 @@ class TestGithubOrgClient(unittest.TestCase):
     """
     test for clients.TestGithubOrgClient class
     """
+
+    @staticmethod
+    def generate_mock (repos_obj):
+            for obj in repos_obj:
+                yield obj
+
+    @patch('client.get_json')
+    def test_public_repos(self, mock_get_json: PropertyMock):
+        """
+        Test client.public_repos function
+        """
+        
+        # define the mock data for the list of repositories that get_json will return
+        mock_repos_payload = [
+            {"name": "alx-backend", "license": {"key": "mit"}},
+            {"name": "alx-frontend", "license": None},
+            {"name": "alx-devops", "license": {"key": "apache-2.0"}},
+        ] 
+
+        generate_repos_names = []
+        for repo in self.generate_mock(mock_repos_payload):
+            generate_repos_names.append(repo['name'])
+        
+
+        #define the mock URL the _public_repos_url will return
+        mock_public_repos_url_value = "https://api.github.com/orgs/alx/repos"
+
+        # configure get_json to return defined payload
+        mock_get_json.return_value = mock_repos_payload
+
+        # use patch object to return GithubOrgClient
+        with patch.object(
+            GithubOrgClient,
+            '_public_repos_url',
+            new_callable=PropertyMock
+        ) as mock_public_repos_url_object:
+            
+            # return the defined mock_pulic_repos_url
+            mock_public_repos_url_object.return_value = mock_public_repos_url_value
+
+            # instantiate GithubOrgClient 
+            client = GithubOrgClient("alxOrganization")
+
+            # call public_repos_url 
+            actual_public_repos_list = client.public_repos()
+            # print(f"actual_public_repos_list: {actual_public_repos_list}")
+
+
+            # assert public_repos_url as called exactly once
+            mock_public_repos_url_object.assert_called_once()
+
+            # assert get_json was called with the correct url exactly once
+            mock_get_json.assert_called_once_with(mock_public_repos_url_value)
+
+            self.assertEqual(actual_public_repos_list, generate_repos_names)
+
+            
+
+
 
     def test_public_repos_url(self):
         """
