@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import unittest
+from unittest import result
 from unittest.mock import  MagicMock, patch
 from parameterized import parameterized
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -83,6 +84,67 @@ class TestGetJson(unittest.TestCase):
 
         # assert the result equals the expected result with test payload
         self.assertEqual(actual_result, test_payloads)
+
+class TestMemozie(unittest.TestCase):
+    """
+    Test for utils.memoize decorator
+    """
+
+    def test_memoize(self):
+        """
+        Test that a method decorated with memozie is called only once 
+        and returns correct result on subsequent call
+        """
+
+        # inner class definition
+        class TestClass:
+            def scores(self):
+                """ mock method """
+                # Overwritten by mock
+                return 43
+            
+            @memoize
+            def contestants(self):
+                """
+                contestants property decorated with @memoize
+                calls calls 'scores' only once
+                """
+                # return scores
+                return self.scores()
+            
+        # use patch.object to mock scores property of TestClass
+        with patch.object(TestClass, 'scores', return_value=100) as mock_scores_method:
+            # instantiate TestClass 
+            test_class_instance = TestClass()
+
+            # access the contestants method, with memoize to cache result after first contact
+            first_contestants_result = test_class_instance.contestants
+
+            #second access, get cached result
+            second_contestants_result = test_class_instance.contestants
+
+            # assertion
+            # assert contestants is called only once
+            mock_scores_method.assert_called_once_with()
+
+            #test the result, test that both response match
+            self.assertEqual(first_contestants_result, 100)
+            self.assertEqual(second_contestants_result, 100)
+            
+            # verify internal memoize attribute exists in memory and holds the correct value
+            self.assertTrue(hasattr(test_class_instance, 'scores'))
+            self.assertEqual(getattr(test_class_instance, 'contestants'), 100)
+
+# boiler plate
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+
+            
 
 
 
