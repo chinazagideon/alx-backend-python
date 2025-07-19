@@ -63,6 +63,7 @@ class TestGetJson(unittest.TestCase):
     # Patch 'requests.get' where its looked up in utils.py
     # MagicMock as the last args
     # test method, after parameterized arguments
+    
     @patch('utils.requests.get') 
     def test_get_json (self, test_url: str, test_payloads: dict, magic_get: MagicMock):
         """
