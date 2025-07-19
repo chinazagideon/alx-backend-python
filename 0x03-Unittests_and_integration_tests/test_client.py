@@ -17,6 +17,25 @@ class TestGithubOrgClient(unittest.TestCase):
     Test for clients.TestGithubOrgClient class
     """
 
+
+    @parameterized.expand([
+            # test 1: has license key that match  
+            ({"license": {"key": "my_license"}}, "my_license", True),
+            # test 2: repo has a different key
+            ({"license": {"key": "my_license"}}, "my_license", True)
+        ])
+    
+    def test_has_license(self, repo: dict, license_key: str, expected_result: bool):
+        """
+        Test that the org has license
+        """ 
+        # verify repo license
+        actual_result = GithubOrgClient.has_license(repo, license_key)
+
+        # assert the result matches the response
+        self.assertEqual(actual_result, expected_result)
+
+
     @staticmethod
     def generate_mock (repos_obj):
             """
