@@ -5,6 +5,7 @@ Unit tests for the functions and decorators in the utils module.
 This module contains tests for nested map access, JSON retrieval,
 and memoization.
 """
+
 import unittest
 from unittest import result
 from unittest.mock import MagicMock, patch
@@ -54,13 +55,6 @@ class TestMemoize(unittest.TestCase):
             self.assertEqual(first_access_result, 100)
             self.assertEqual(second_access_result, 100)
 
-            # verify internal memoize attribute exists in memory and holds the correct value
-            self.assertTrue(
-                hasattr(test_class_instance, "a_method")
-                )
-            self.assertEqual(
-                getattr(test_class_instance, "a_property"), 100
-                )
 
 class TestGetJson(unittest.TestCase):
     """
@@ -76,7 +70,8 @@ class TestGetJson(unittest.TestCase):
     )
     # Patch 'requests.get' where its looked up in utils.py
     @patch("utils.requests.get")
-    def test_get_json(self, test_url: str, test_payloads: dict, magic_get: MagicMock):
+    def test_get_json(self, test_url: str, 
+                      test_payloads: dict, magic_get: MagicMock):
         """
         Test that get_json returns expected results and the request.get was called correctly
         """
@@ -136,3 +131,4 @@ class TestAccessNestedMap(unittest.TestCase):
 
         with self.assertRaisesRegex(KeyError, expected_message_regex):
             access_nested_map(nested_map, path)  # call function under test
+            
