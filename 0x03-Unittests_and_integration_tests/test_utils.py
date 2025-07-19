@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+"""
+Unit tests for the functions and decorators in the utils module.
+This module contains tests for nested map access, JSON retrieval,
+and memoization.
+"""
 import unittest
 from unittest import result
 from unittest.mock import MagicMock, patch
@@ -31,10 +36,10 @@ class TestMemoize(unittest.TestCase):
                 a_property property decorated with @memoize
                 calls calls 'a_method' only once
                 """
-                # return a_property
+                
                 return self.a_method()
 
-        # use patch.object to mock a_method property of TestClass
+        # use patch object to mock method property of TestClass
         with patch.object(TestClass, "a_method", return_value=100) as mock_a_method:
             # instantiate TestClass
             test_class_instance = TestClass()
