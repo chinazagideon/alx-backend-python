@@ -40,20 +40,31 @@ class TestMemoize(unittest.TestCase):
                 return self.a_method()
 
         # use patch object to mock method property of TestClass
-        with patch.object(TestClass, "a_method", return_value=100) as mock_a_method:
-            # instantiate TestClass
-            test_class_instance = TestClass()
-            # access the contestants method, with memoize to cache result after first contact
-            first_access_result = test_class_instance.a_property
-            # second access, get cached result
-            second_access_result = test_class_instance.a_property
-            # assertion
-            # assert contestants is called only once
-            mock_a_method.assert_called_once_with()
+        with patch.object(
+            TestClass, "a_method", return_value=100
+            ) as mock_a_method:
+                # instantiate TestClass
+                test_class_instance = TestClass()
+                # access the contestants method, with memoize to cache result after first contact
+                first_access_result = test_class_instance.a_property
+                # second access, get cached result
+                second_access_result = test_class_instance.a_property
+                # assertion
+                # assert contestants is called only once
+                mock_a_method.assert_called_once_with()
 
-            # test the result, test that both response match
-            self.assertEqual(first_access_result, 100)
-            self.assertEqual(second_access_result, 100)
+                # test the result, test that both response match
+                self.assertEqual(first_access_result, 100)
+                self.assertEqual(second_access_result, 100)
+
+                # verify internal memoized attribute exists in memory and holds
+                # the correct value
+                self.assertTrue(
+                    hasattr(test_class_instance, "_a_property")  # FIX: Corrected to _a_property
+                )
+                self.assertEqual(
+                    getattr(test_class_instance, "_a_property"), 100  # FIX: Access memoized attribute
+                )
 
 
 class TestGetJson(unittest.TestCase):
@@ -131,4 +142,3 @@ class TestAccessNestedMap(unittest.TestCase):
 
         with self.assertRaisesRegex(KeyError, expected_message_regex):
             access_nested_map(nested_map, path)  # call function under test
-            
