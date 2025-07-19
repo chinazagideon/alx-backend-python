@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-import unittest 
+
+import unittest
+from unittest.mock import  MagicMock, patch
 from parameterized import parameterized
-from utils import access_nested_map
+from utils import access_nested_map, get_json
+
 
 class TestAccessNestedMap(unittest.TestCase):
     """
@@ -43,6 +46,50 @@ class TestAccessNestedMap(unittest.TestCase):
 
         with self.assertRaisesRegex(KeyError, expected_message_regex):
             access_nested_map(nested_map, path) #call function under test
+
+class TestGetJson(unittest.TestCase):   
+
+    """
+    Unittest for the utils.get_json function
+    """
+    
+    # @parameterized.expand([]) before @patch 
+    #for patch to recieve all test cases created by parameterized 
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://herold.com", {"payload": False})
+    ])
+
+    # Patch 'requests.get' where its looked up in utils.py
+    # MagicMock as the last args
+    # test method, after parameterized arguments
+    @patch('utils.requests.get') 
+    def test_get_json (self, test_url: str, test_payloads: dict, magic_get: MagicMock):
+        """
+        Test that get_json returns expected results and the request.get was called correctly
+        """
+
+        # configure mock for response object returns by requests.get
+        mock_response_object=MagicMock()
+        mock_response_object.json.return_value = test_payloads
+
+        # return the value for the mocked requests.get
+        # NB: calls to requests.get returns mock_response_object
+        magic_get.return_value = mock_response_object
+
+        # call test function
+        actual_result = get_json(test_url)
+
+        # make assertions
+        # asset the test call was with the valid url
+        magic_get.assert_called_once_with(test_url)
+
+        # assert the result equals the expected result with test payload
+        self.assertEqual(actual_result, test_payloads)
+
+
+
+
 
 
 
