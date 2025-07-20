@@ -71,7 +71,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # cors
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
     # django
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -80,14 +79,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # rest framework
-    "rest_framework.authtoken",
-    "rest_framework.authentication",
-    "rest_framework.permissions",
-    "rest_framework.renderers",
-    "rest_framework.schemas",
-    "rest_framework.views",
-    "rest_framework.permissions.IsAuthenticated",
 ]
 ROOT_URLCONF = "messaging_app.urls"
 

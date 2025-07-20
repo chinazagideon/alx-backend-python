@@ -4,11 +4,7 @@ This file contains the models for the chats app
 """
 
 from django.db import models
-from django.contrib.auth.models import (
-    AbstractUser,
-    AbstractConversation,
-    AbstractMessage,
-)
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from message.models import Message
 from django.conf import settings
 from uuid import uuid4
@@ -17,14 +13,36 @@ from uuid import uuid4
 from django.utils.translation import gettext_lazy as _
 
 
-class Message(AbstractMessage):
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(email, password, **extra_fields)
+
+
+class Message(models.Model):
     """
     This model is used to store the message details
     """
 
     message_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    conversation_id = models.ForeignKey(
-        settings.AUTH_CONVERSATION_MODEL, on_delete=models.CASCADE, related_name="conversation_id"
+    conversation = models.ForeignKey(
+        settings.AUTH_CONVERSATION_MODEL, on_delete=models.CASCADE, related_name="messages"
     )
     message_body = models.TextField(null=False, blank=False)
     sent_at = models.DateTimeField(auto_now_add=True)
@@ -41,7 +59,7 @@ class Message(AbstractMessage):
         return f"{self.message_body}"
 
 
-class Conversation(AbstractConversation):
+class Conversation(models.Model):
     """
     This model is used to store the conversation details
     """
@@ -56,7 +74,7 @@ class Conversation(AbstractConversation):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class User(AbstractUser):
+class User(AbstractBaseUser, PermissionsMixin):
     """
     This model is used to store the user details
     """
@@ -93,14 +111,6 @@ class User(AbstractUser):
         unique=True,
         help_text=_("User's email address"),
     )
-    # this field is inherited from the AbstractUser class
-    password = models.CharField(
-        _("password"),
-        max_length=255,
-        null=False,
-        blank=False,
-        help_text=_("User's password"),
-    )
     # this field is not inherited from the AbstractUser class
     phone_number = models.CharField(
         _("phone number"),
@@ -110,25 +120,52 @@ class User(AbstractUser):
         unique=True,
         help_text=_("User's phone number, e.g., +12125551212"),
     )
+    is_staff = models.BooleanField(
+        _("staff status"),
+        default=False,
+        help_text=_("Designates whether the user can log into this admin site."),
+    )
+    is_active = models.BooleanField(
+        _("active"),
+        default=True,
+        help_text=_(
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
+        ),
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number']
 
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
         ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(fields=["email"], name="unique_email")
+        ]
 
     def __str__(self):
         if self.first_name and self.last_name:
             return f"{self.first_name} {self.last_name}"
         return f"{self.pk}"
 
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
 
+    def get_short_name(self):
+        return self.first_name
 
 
 # Create your models here.
 class Chat(models.Model):
     chat_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    message_id = models.ForeignKey(
-        Message, on_delete=models.CASCADE, related_name="message_id"
+    message = models.ForeignKey(
+        Message, on_delete=models.CASCADE, related_name="chats"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
