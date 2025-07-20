@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     #my apps
     'messaging_app',
     'corsheaders',
+    'chats',
+    'users',
+    'uploads',
 
     #third party apps
     'rest_framework'
