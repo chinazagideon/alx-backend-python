@@ -4,8 +4,7 @@ This file contains the serializers for the chats app
 """
 
 from rest_framework import serializers
-# from .models import User, Conversation, Message, Chat
-from django.conf import settings
+from .models import User, Conversation, Message, Chat
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -14,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = settings.AUTH_USER_MODEL
+        model = User
         fields = "__all__"
         read_only_fields = ["user_id"]
 
@@ -25,28 +24,37 @@ class ConversationSerializer(serializers.ModelSerializer):
     Handles nested messages and custom fields.
     """
     # this field is not inherited from the AbstractConversation class
-    perticipants = serializers.PrimaryKeyRelatedField(
-        queryset=settings.AUTH_USER_MODEL.objects.all(), 
+    participants = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), 
         many=True,
         help_text=("IDs of users participating in this conversation")
         )
     # this field is not inherited from the AbstractConversation class
-    perticipants_count = serializers.SerializerMethodField()
+    participants_count = serializers.SerializerMethodField()
     # this field is not inherited from the AbstractConversation class
     last_message_preview = serializers.SerializerMethodField()
 
     class Meta:
-        model = settings.AUTH_CONVERSATION_MODEL
-        fields = ["conversation_id", "perticipants", "perticipants_count", "last_message_preview"]
+        model = Conversation
+        fields = ["conversation_id", "participants", "participants_count", "last_message_preview", "created_at", "updated_at"]
         read_only_fields = ["conversation_id"]
+
+    def get_participants_count(self, obj):
+        return obj.participants.count()
+
+    def get_last_message_preview(self, obj):
+        last_message = obj.messages.order_by('-sent_at').first()
+        if last_message:
+            return last_message.message_body[:50] + "..." if len(last_message.message_body) > 50 else last_message.message_body
+        return "No messages yet"
 
 class MessageSerializer(serializers.ModelSerializer):
     """
     Serializer for the Message model
     """
     # this field is not inherited from the AbstractMessage class
-    conversation_id = serializers.PrimaryKeyRelatedField(
-        queryset=settings.AUTH_CONVERSATION_MODEL.objects.all(),
+    conversation = serializers.PrimaryKeyRelatedField(
+        queryset=Conversation.objects.all(),
         help_text=("The conversation this message belongs to")
     )
     # this field is not inherited from the AbstractMessage class
@@ -69,9 +77,9 @@ class MessageSerializer(serializers.ModelSerializer):
     
     # this field is not inherited from the AbstractMessage class
     class Meta:
-        model = settings.AUTH_MESSAGE_MODEL
+        model = Message
         fields = "__all__"
-        read_only_fields = ["message_id", "conversation_id"]
+        read_only_fields = ["message_id"]
 
 class ChatSerializer(serializers.ModelSerializer):
     """
@@ -79,5 +87,5 @@ class ChatSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = settings.AUTH_CHAT_MODEL
+        model = Chat
         fields = "__all__"

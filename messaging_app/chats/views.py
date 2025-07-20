@@ -24,13 +24,13 @@ def filter_by_conversation(queryset, conversation_id):
     """
     Filter the queryset by the conversation id
     """
-    return queryset.filter(conversation_id=conversation_id)
+    return queryset.filter(conversation=conversation_id)
 
-def filter_by_status(queryset, status):
+def filter_by_message(queryset, message_id):
     """
-    Filter the queryset by the status
+    Filter the queryset by the message id
     """
-    return queryset.filter(status=status)
+    return queryset.filter(message=message_id)
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -58,9 +58,9 @@ class ConversationViewSet(viewsets.ModelViewSet):
     filterset_fields = ['conversation_id']
     def get_queryset(self):
         """
-        Filter the queryset by the conversation id
+        Filter the queryset by the user's conversations
         """
-        return filter_by_conversation(self.queryset, self.request.user.id)
+        return self.queryset.filter(participants=self.request.user)
 
 class MessageViewSet(viewsets.ModelViewSet):
     """
@@ -70,12 +70,12 @@ class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['status']
+    filterset_fields = ['conversation']
     def get_queryset(self):
         """
-        Filter the queryset by the status
+        Filter the queryset by the user's conversations
         """
-        return filter_by_status(self.queryset, self.request.user.id)
+        return self.queryset.filter(conversation__participants=self.request.user)
 
 class ChatViewSet(viewsets.ModelViewSet):
     """
@@ -85,11 +85,11 @@ class ChatViewSet(viewsets.ModelViewSet):
     serializer_class = ChatSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['status']
+    filterset_fields = ['message']
     def get_queryset(self):
         """
-        Filter the queryset by the status
+        Filter the queryset by the user's messages
         """
-        return filter_by_status(self.queryset, self.request.user.id)
+        return self.queryset.filter(message__conversation__participants=self.request.user)
     
     
