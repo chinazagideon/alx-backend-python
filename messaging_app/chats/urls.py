@@ -25,8 +25,8 @@ conversation_router.register(r"messages", MessageViewSet, basename="conversation
 
 # add the nested routers to the router
 router.registry.extend(conversation_router.registry)
-apiRoute = ['api/']  # this is the base route for the api
-authRoute = ['api/auth/']  # this is the base route for the authentication
+apiRoute = ["api/"]  # this is the base route for the api
+authRoute = ["api/auth/"]  # this is the base route for the authentication
 
 
 schema_view = get_schema_view(
