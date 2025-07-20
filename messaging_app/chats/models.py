@@ -4,11 +4,28 @@ This file contains the models for the chats app
 """
 
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, AbstractConversation, AbstractMessage
 from message.models import Message
 from uuid import uuid4
+from chats.models import User # WATCHOUT: user defined in settings.py as Auth_User_Model might handle this differently
 from django.utils.translation import gettext_lazy as _
 
+class Message(AbstractMessage):
+    """
+    This model is used to store the message details
+    """
+    message_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    message_body = models.TextField(null=False, blank=False)
+    sent_at = models.DateTimeField(auto_now_add=True)
+class Conversation(AbstractConversation):
+    """
+    This model is used to store the conversation details
+    """
+    conversation_id = models.UUIDField(
+        primary_key=True, default=uuid4, editable=False)
+    participants = models.ManyToManyField(User, related_name='participants')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class User(AbstractUser):
     """
@@ -21,6 +38,7 @@ class User(AbstractUser):
         editable=False,
         help_text=_("User\'s unique identifier")
     )
+    # this field is inherited from the AbstractUser class
     first_name = models.CharField(
         _("first name"),
         max_length=255,
@@ -36,6 +54,7 @@ class User(AbstractUser):
         blank=False,
         help_text=_("User\'s last name")
     )
+    # this field is inherited from the AbstractUser class
     email = models.EmailField(
         _("email address"),
         max_length=255,
@@ -44,6 +63,7 @@ class User(AbstractUser):
         unique=True,
         help_text=_("User\'s email address")
     )
+    # this field is inherited from the AbstractUser class
     password = models.CharField(
         _("password"),
         max_length=255,
@@ -51,6 +71,7 @@ class User(AbstractUser):
         blank=False,
         help_text=_("User\'s password")
     )
+    # this field is not inherited from the AbstractUser class
     phone_number = models.CharField(
         _("phone number"),
         max_length=15, 

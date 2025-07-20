@@ -27,7 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'chats.User'
+AUTH_USER_MODEL = 'chats.User' #overrides the default user model
+AUTH_CONVERSATION_MODEL = 'chats.Conversation' #overrides the default conversation model
+AUTH_MESSAGE_MODEL = 'chats.Message' #overrides the default message model
 
 # Application definition
 
