@@ -70,7 +70,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['conversation']
+    filterset_fields = ['conversation', 'status']
     def get_queryset(self):
         """
         Filter the queryset by the user's conversations
