@@ -50,7 +50,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     """
 
     @classmethod    
-    def setUp(cls):
+    def setUpClass(cls):
         """
         Sets up class level patch for requests.get to simulate API calls
         """
@@ -76,7 +76,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         cls.mock_get = cls.get_patcher.start()
 
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         """
         Stop all class patcher after the entire tests is done
         """
