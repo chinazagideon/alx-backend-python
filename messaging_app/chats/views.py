@@ -7,6 +7,9 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import User, Conversation, Message, Chat
+# filters for the models
+from django.shortcuts import get_object_or_404
+# serializers for the models
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer, ChatSerializer
 
 # Create your views here.
