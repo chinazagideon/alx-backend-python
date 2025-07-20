@@ -14,10 +14,11 @@ from client import GithubOrgClient
 from parameterized import parameterized, parameterized_class
 import fixtures
 
-
+# define vars
 org_info = fixtures.TEST_PAYLOAD[0][0]
 respos_list = fixtures.TEST_PAYLOAD[0][1]
 
+# define payloads
 full_org_payload = {
     "login": "google", 
     "url": "https://api.github.com/orgs/google",
@@ -27,21 +28,29 @@ full_org_payload = {
 # extract the list of all repository names
 extract_expected_repos = [repo["name"] for repo in respos_list]
 
+# extract the list of all repository names with the license "apache-2.0"
+extract_apache2_repos = [repo["name"] for repo in respos_list 
+                         if repo.get('license') is not None 
+                         and isinstance(repo.get('license'), dict) 
+                         and repo.get("license", {}).get("key") == "apache-2.0"]
+
 # create test classes from fixtures
 test_classes = [
     {
         "org_payload": full_org_payload,
         "repos_payload": respos_list,
         "expected_repos": extract_expected_repos,
+        "apache2_repos": extract_apache2_repos,
     },
     {
         "org_payload": full_org_payload,
         "repos_payload": respos_list,
         "expected_repos": extract_expected_repos,
+        "apache2_repos": extract_apache2_repos,
     },
 ]
 
-@parameterized_class
+@parameterized_class(test_classes)
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """
     Test for TestGithubOrgClient.public_repos class
@@ -105,8 +114,29 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         self.mock_get.assert_has_calls(expected_calls, any_order=False)
         # self.assertEqual(self.mock_get.count, 2)
-            
+    def test_public_repos_with_license(self):
+        """
+        Test that the public_repos method of GithubOrgClient returns the correct
+        list of repos with the correct license
+        """
+        # instantiate GithubOrgClient login with the current org_payload login
+        clients = GithubOrgClient(self.org_payload['login'])
 
+        actual_repos = clients.public_repos(license="apache-2.0")
+
+        # assert the returned repos matches the expected fixture
+        self.assertEqual(actual_repos, self.apache2_repos)
+
+        # assert that requests.url was called with the correct URLs
+        # single call to repos url and org url
+        expected_calls = [
+            unittest.mock.call(self.org_payload['url']),
+            unittest.mock.call(self.org_payload['repos_url'])
+        ]
+        self.mock_get.assert_has_calls(expected_calls, any_order=False)
+
+        # assert that requests.url was called with the correct URLs
+        # single call to repos url and org url
 class TestGithubOrgClient(unittest.TestCase):
     """
     Test for clients.TestGithubOrgClient class
