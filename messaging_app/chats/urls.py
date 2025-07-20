@@ -1,4 +1,4 @@
-# chats/url.py
+# chats/urls.py
 """
 This file contains the urls for the chats app
 """
