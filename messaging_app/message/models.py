@@ -3,7 +3,7 @@
 This file contains the models for the message app
 """
 from django.db import models
-from users.models import User
+from user.models import User
 from chats.models import Chat
 
 class MessageType(models.TextChoices):

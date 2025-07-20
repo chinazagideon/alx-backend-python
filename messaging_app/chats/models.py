@@ -4,7 +4,7 @@ This file contains the models for the chats app
 """
 
 from django.db import models
-from users.models import User
+from user.models import User
 from message.models import Message
 
 # Create your models here.

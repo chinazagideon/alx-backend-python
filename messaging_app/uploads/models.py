@@ -4,7 +4,7 @@ This file contains the models for the uploads app
 """
 from django.db import models
 from chats.models import Chat
-from users.models import User
+from user.models import User
 # Create your models here.
 class ReferenceType(models.TextChoices):
     CHAT = 'chat'
