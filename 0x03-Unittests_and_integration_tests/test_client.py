@@ -28,13 +28,20 @@ full_org_payload = {
 extract_expected_repos = [repo["name"] for repo in respos_list]
 
 # create test classes from fixtures
-@parameterized_class([
+test_classes = [
     {
         "org_payload": full_org_payload,
         "repos_payload": respos_list,
         "expected_repos": extract_expected_repos,
     },
-    ])
+    {
+        "org_payload": full_org_payload,
+        "repos_payload": respos_list,
+        "expected_repos": extract_expected_repos,
+    },
+]
+
+@parameterized_class(test_classes)
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """
     Test for TestGithubOrgClient.public_repos class
