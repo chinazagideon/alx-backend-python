@@ -41,7 +41,7 @@ test_classes = [
     },
 ]
 
-@parameterized_class(test_classes)
+@parameterized_class
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """
     Test for TestGithubOrgClient.public_repos class
