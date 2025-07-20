@@ -68,6 +68,7 @@ MIDDLEWARE = [
     'rest_framework.renderers',
     'rest_framework.schemas',
     'rest_framework.views',
+    "rest_framework.permissions.IsAuthenticated",
 ]
 
 REST_FRAMEWORK = {
