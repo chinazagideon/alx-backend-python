@@ -60,8 +60,24 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #rest framework
+    'rest_framework.authtoken',
+    'rest_framework.authentication',
+    'rest_framework.permissions',
+    'rest_framework.renderers',
+    'rest_framework.schemas',
+    'rest_framework.views',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',   # Web-based login (admin, browsable API)
+        'rest_framework.authentication.BasicAuthentication',     # Base64 username:password (for testing)
+        # 'rest_framework.authentication.TokenAuthentication',   # Uncomment if using token auth
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',  # Uncomment if using JWT
+    ]
+}
 ROOT_URLCONF = 'messaging_app.urls'
 
 TEMPLATES = [
