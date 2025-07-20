@@ -14,8 +14,8 @@ router.register(r"conversations", ConversationViewSet)
 router.register(r"messages", MessageViewSet)
 router.register(r"chats", ChatViewSet)
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    
-    path("api/", include(router.urls)),
+    path("api/", include(router.urls)), # include the router urls ["api"]
 ]
