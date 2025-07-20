@@ -1,12 +1,28 @@
+# users/models.py
 from django.db import models
+"""
+This file contains the models for the users app
+"""
+
+class Role(models.TextChoices):
+    ADMIN = 'admin'
+    USER = 'user'
+    MODERATOR = 'moderator'
 
 # Create your models here.
 class User(models.Model):
-    name = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField(max_length=255, null=True, blank=True)
-    password = models.CharField(max_length=255, null=True, blank=True)
+    """
+    This model is used to store the user details
+    """
+    first_name = models.CharField(max_length=255, null=False, blank=False)
+    last_name = models.CharField(max_length=255, null=False, blank=False)
+    email = models.EmailField(max_length=255, null=False, blank=False)
+    password = models.CharField(max_length=255, null=False, blank=False)
+    phone_number = models.CharField(max_length=255, null=True, blank=True)
+    role = models.CharField(max_length=50, choices=Role.choices, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+    
