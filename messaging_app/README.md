@@ -1,5 +1,6 @@
 # Hey! Messaging App build with Django Framework
 
+
 ## APP Considerations and Scope
 ### Security: CORS 
 ### Models and Table Relationships
