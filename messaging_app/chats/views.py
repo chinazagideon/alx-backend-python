@@ -4,7 +4,8 @@ This file contains the views for the chats app
 """
 
 from django.shortcuts import render
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import User, Conversation, Message, Chat
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer, ChatSerializer
 
@@ -35,6 +36,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['user_id']
     def get_queryset(self):
         """
         Filter the queryset by the user id
@@ -48,6 +51,8 @@ class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
     serializer_class = ConversationSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['conversation_id']
     def get_queryset(self):
         """
         Filter the queryset by the conversation id
@@ -61,7 +66,8 @@ class MessageViewSet(viewsets.ModelViewSet):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
-
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['status']
     def get_queryset(self):
         """
         Filter the queryset by the status
@@ -75,6 +81,12 @@ class ChatViewSet(viewsets.ModelViewSet):
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
     permission_classes = [permissions.IsAuthenticated]
-    
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['status']
+    def get_queryset(self):
+        """
+        Filter the queryset by the status
+        """
+        return filter_by_status(self.queryset, self.request.user.id)
     
     
