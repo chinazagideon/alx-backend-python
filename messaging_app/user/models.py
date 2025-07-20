@@ -1,7 +1,7 @@
-# users/models.py
+# user/models.py
 from django.db import models
 """
-This file contains the models for the users app
+This file contains the models for the user app
 """
 
 class Role(models.TextChoices):
