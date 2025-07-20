@@ -27,8 +27,8 @@ class ConversationSerializer(serializers.ModelSerializer):
     
     perticipants = serializers.PrimaryKeyRelatedField(
         queryset=settings.AUTH_USER_MODEL.objects.all(), 
-        many=True
-        help_text=_("Users participating in this conversation")
+        many=True,
+        help_text=("IDs of users participating in this conversation")
         )
     perticipants_count = serializers.SerializerMethodField()
     last_message_preview = serializers.SerializerMethodField()
