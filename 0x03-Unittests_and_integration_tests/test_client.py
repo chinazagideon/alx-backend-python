@@ -27,22 +27,14 @@ full_org_payload = {
 # extract the list of all repository names
 extract_expected_repos = [repo["name"] for repo in respos_list]
 
-# Extract list repositories with Apache-2.0 license
-# extracted_apache2_repos = [
-#     repo["name"] for repo in respos_list 
-#     if repo != None and repo.get("license", {}).get("key") == "apache-2.0"
-# ] 
-
-
 # create test classes from fixtures
 @parameterized_class([
     {
         "org_payload": full_org_payload,
         "repos_payload": respos_list,
         "expected_repos": extract_expected_repos,
-        # "apache2_repos": extracted_apache2_repos,
-    }
-])
+    },
+    ])
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """
     Test for TestGithubOrgClient.public_repos class
