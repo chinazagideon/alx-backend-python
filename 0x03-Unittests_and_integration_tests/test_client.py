@@ -8,9 +8,105 @@ from os import name
 import unittest
 
 from unittest.mock import mock_open, patch, MagicMock, PropertyMock
+import unittest.mock
 from utils import get_json
 from client import GithubOrgClient
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
+import fixtures
+
+
+org_info = fixtures.TEST_PAYLOAD[0][0]
+respos_list = fixtures.TEST_PAYLOAD[0][1]
+
+full_org_payload = {
+    "login": "google", 
+    "url": "https://api.github.com/orgs/google",
+    "repos_url": org_info['repos_url'] 
+}
+
+# extract the list of all repository names
+extract_expected_repos = [repo["name"] for repo in respos_list]
+
+# Extract list repositories with Apache-2.0 license
+# extracted_apache2_repos = [
+#     repo["name"] for repo in respos_list 
+#     if repo != None and repo.get("license", {}).get("key") == "apache-2.0"
+# ] 
+
+
+# create test classes from fixtures
+@parameterized_class([
+    {
+        "org_payload": full_org_payload,
+        "repos_payload": respos_list,
+        "expected_repos": extract_expected_repos,
+        # "apache2_repos": extracted_apache2_repos,
+    }
+])
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """
+    Test for TestGithubOrgClient.public_repos class
+    Mock only external request.gets calls using class-fixtures
+    """
+
+    @classmethod    
+    def setUp(cls):
+        """
+        Sets up class level patch for requests.get to simulate API calls
+        """
+
+        # create a dictionary for mapping URLs to respective repos
+        cls.get_payloads = {
+            cls.org_payload['url']:  cls.org_payload,
+            cls.org_payload['repos_url']: cls.repos_payload
+        }
+
+        #define sideeffect
+        def side_effect_func(url):
+            mock_reponse = MagicMock()
+            payload = cls.get_payloads.get(url)
+            if payload is None:
+                raise ValueError(f"URL not mocked, {url}")
+            mock_reponse.json.return_value = payload
+            return mock_reponse
+        
+
+        # Start the patcher for 'requests.get'
+        cls.get_patcher = patch('requests.get', side_effect=side_effect_func)
+        cls.mock_get = cls.get_patcher.start()
+
+    @classmethod
+    def tearDown(cls):
+        """
+        Stop all class patcher after the entire tests is done
+        """
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """
+        Tests GithubOrgClient.public_repos in an integration context,
+        verify correct return value and call API counts
+        """
+
+        # instantiate GithubOrgClient login with the current org_payload login
+        clients = GithubOrgClient(self.org_payload['login'])
+
+        # call public_repos
+        actual_repos = clients.public_repos()
+
+        # assert the returned repos matches the expected fixture
+        self.assertEqual(actual_repos, self.expected_repos)
+
+        # assert that requests.url was called with the correct URLs
+        # single call to repos url and org url
+        expected_calls = [
+            unittest.mock.call(self.org_payload['url']),
+            unittest.mock.call(self.org_payload['repos_url'])
+        ]
+
+        self.mock_get.assert_has_calls(expected_calls, any_order=False)
+        # self.assertEqual(self.mock_get.count, 2)
+            
 
 class TestGithubOrgClient(unittest.TestCase):
     """
