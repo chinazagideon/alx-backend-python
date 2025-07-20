@@ -7,6 +7,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from .views import UserViewSet, ConversationViewSet, MessageViewSet, ChatViewSet
+from rest_framework.authtoken import views as auth_views
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
@@ -14,8 +17,20 @@ router.register(r"conversations", ConversationViewSet)
 router.register(r"messages", MessageViewSet)
 router.register(r"chats", ChatViewSet)
 
-
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Messaging API",
+        default_version='v1',
+        description="API for the Messaging App",
+    ),
+    public=True,
+)
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path(["api"], include(router.urls)), # include the router urls ["api"]
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)), # include the router urls Watch -> ["api"]
+    # authentication
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/auth/token/', auth_views.obtain_auth_token),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'), # swagger ui
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'), # redoc ui
 ]
