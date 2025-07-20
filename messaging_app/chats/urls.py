@@ -21,6 +21,7 @@ router.register(r"chats", ChatViewSet)
 # nested routers
 conversation_router = nested_routers.NestedDefaultRouter(router, r"conversations", lookup="conversation")
 conversation_router.register(r"messages", MessageViewSet, basename="conversation-messages")
+conversation_router.register(r"api-auth", auth_views.obtain_auth_token, basename="conversation-api-auth")
 
 # add the nested routers to the router
 router.registry.extend(conversation_router.registry)
