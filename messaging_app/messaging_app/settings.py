@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,23 +29,76 @@ ALLOWED_HOSTS = []
 
 # define all the models to be used in the project
 AUTH_USER_MODEL = "chats.User"  # overrides the default user model
-AUTH_CONVERSATION_MODEL = (
-    "chats.Conversation"  # overrides the default conversation model
-)
+AUTH_CONVERSATION_MODEL = "chats.Conversation"  # overrides the default conversation model
+
 AUTH_MESSAGE_MODEL = "chats.Message"  # overrides the default message model
 AUTH_CHAT_MODEL = "chats.Chat"  # overrides the default chat model
 
+# This is where users will be redirected for login if they need to authenticate
+# before authorizing an application. You can point this to Django's built-in
+# admin login or a custom login view.
+LOGIN_URL = '/admin/login/' # Or '/accounts/login/' if you have a custom login app
+
+OAUTH2_PROVIDER = {
+    # Specify the grant types your authorization server will support.
+    # We are explicitly enabling 'authorization_code' for PKCE.
+    'ALLOWED_GRANT_TYPES': ['authorization_code', 'refresh_token'], # Include refresh_token for seamless experience
+
+    # Enforce PKCE for authorization code grant. THIS IS CRUCIAL FOR SECURITY.
+    'PKCE_REQUIRED': True,
+
+    # Token expiration settings (in seconds)
+    # Good practice is short-lived access tokens and longer-lived refresh tokens.
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 60 * 60,  # 1 hour (adjust as needed)
+    'REFRESH_TOKEN_EXPIRE_SECONDS': 60 * 60 * 24 * 7, # 1 week (adjust as needed)
+    
+    # Define your OAuth2 scopes. These will be used to control access to API resources.
+    # For a messaging app, examples could be:
+    'SCOPES': {
+        'read:messages': 'Read user messages',
+        'send:messages': 'Send messages on behalf of the user',
+        'manage:conversations': 'Create, update, or delete conversations',
+        # Add more specific scopes as your messaging app grows
+    },
+
+    # Recommended: Set the allowed redirect URI schemes to only HTTPS in production.
+    # For local development, you might need 'http' if not using HTTPS locally.
+    'ALLOWED_REDIRECT_URI_SCHEMES': ['https', 'http'], # In production, highly recommend ['https'] only
+    
+    # Set to True if you want a new refresh token issued with each access token refresh.
+    # This is a good security practice (Refresh Token Rotation).
+    'ROTATE_REFRESH_TOKEN': True,
+}
 # rest framework settings
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_AUTHENTICATION_CLASSES": [
+
+        # Use OAuth2Authentication for API endpoints protected by OAuth2
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        
         "rest_framework.authentication.SessionAuthentication",  # Web-based login (admin, browsable API)
         "rest_framework.authentication.BasicAuthentication",  # Base64 username:password (for testing)
         # 'rest_framework.authentication.TokenAuthentication',   # Uncomment if using token auth
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',  # Uncomment if using JWT
     ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+
+    # Optional: If you want to use the browsable API for development, include this
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    # )
+    
 }
 
+# Set environment variable for insecure transport if running with http locally
+# In a production environment, you should always use HTTPS.
+# Add this ONLY if you are testing with http:// for redirect URIs and your server is not HTTPS.
+# If you are using 'http' in ALLOWED_REDIRECT_URI_SCHEMES, you will need this for testing.
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' 
 # Application definition
 
 INSTALLED_APPS = [
@@ -65,11 +118,12 @@ INSTALLED_APPS = [
     # 'conversation',
     # third party apps
     "rest_framework",
+    "oauth2_provider",
     "django_filters",
 ]
 
 MIDDLEWARE = [
-    # cors
+    # cors - MUST be first middleware
     "corsheaders.middleware.CorsMiddleware",
     # django
     "django.middleware.security.SecurityMiddleware",

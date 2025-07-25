@@ -1,4 +1,5 @@
 # user/models.py
+from uuid import uuid4
 from django.db import models
 """
 This file contains the models for the user app
@@ -14,6 +15,7 @@ class User(models.Model):
     """
     This model is used to store the user details
     """
+    user_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=255, null=False, blank=False)
     last_name = models.CharField(max_length=255, null=False, blank=False)
     email = models.EmailField(max_length=255, null=False, blank=False)
