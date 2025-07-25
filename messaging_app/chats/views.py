@@ -4,11 +4,11 @@ This file contains the views for the chats app
 """
 
 from django.shortcuts import render
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import User, Conversation, Message, Chat
 from oauth2_provider.contrib.rest_framework import OAuth2ScopedPermission
-
+from rest_framework.response import Response
 
 # filters for the models
 from django.shortcuts import get_object_or_404
@@ -74,18 +74,17 @@ class ConversationViewSet(viewsets.ModelViewSet):
 
     permission_classes = [
         permissions.IsAuthenticated,
-        Oauth2ScopedPermission,
+        OAuth2ScopedPermission,
         isPerticipantOfConversation,
     ]
 
-
     required_scopes = {
-        'GET': ['read:messages'],
-        'POST': ['manage:conversations'],
-        'PUT': ['manage:conversations'],
-        'PATCH': ['manage:conversations'],
-        'DELETE': ['manage:conversations']
-    } 
+        "GET": ["read:messages"],
+        "POST": ["manage:conversations"],
+        "PUT": ["manage:conversations"],
+        "PATCH": ["manage:conversations"],
+        "DELETE": ["manage:conversations"],
+    }
 
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["conversation_id"]
@@ -100,6 +99,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
         # return self.queryset.filter(participants=self.request.user)
         return Conversation.objects.none()
 
+
 class MessageViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows messages to be viewed or edited.
@@ -107,9 +107,40 @@ class MessageViewSet(viewsets.ModelViewSet):
 
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [
+        permissions.IsAuthenticated,
+        OAuth2ScopedPermission,
+        isPerticipantOfConversation,
+    ]
+
+    required_scopes = {
+        'GET': ['read:messages'],
+        'POST': ['send:messages'],
+        'PUT': ['send:messages', 'manage:conversations'],
+        'PATCH': ['send:messages', 'manage:conversations'],
+        'DELETE': ['manage:conversations']
+    }
+
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["conversation", "status"]
+
+    def perform_create(self, serializer):
+        """
+        use Current  User as message sender
+        add as participant
+        """
+
+        conversation = serializer.validated_data.get('conversation')
+
+        # check user is authenticated, general authentication
+        if not self.request.user.is_authenticated:
+            return Response({'detail': "Action not authorised, login and try again"}, status=status.HTTP_403_FORBIDDEN)
+        
+        # check request user is a participant of conversation
+        if not conversation.perticipants.filter(id=self.request.user.id).exists():
+            return Response({'detail': 'You are not a participant of this conversation'}, status=status.HTTP_403_FORBIDDEN)
+        
+        serializer.save(sender=self.request.user)
 
     def get_queryset(self):
         """
