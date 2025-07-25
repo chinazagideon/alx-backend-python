@@ -9,3 +9,4 @@ class CustomTokenAuthentication(TokenAuthentication):
     This class is used to authenticate the user using the token
     """
     keyword = 'Bearer'
+    
