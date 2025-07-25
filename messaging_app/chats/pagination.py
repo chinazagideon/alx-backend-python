@@ -6,8 +6,8 @@ class CustomPagination(PageNumberPagination):
     This class is used by Django REST Framework to paginate querysets.
     When applied, a 'page' object will have attributes like 'paginator.count'.
     """
-
-    page_size = 10
+    
+    page_size = 20
     page_size_query_param='page_size'
     max_page_size=100
     
