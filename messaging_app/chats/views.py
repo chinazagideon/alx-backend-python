@@ -7,11 +7,14 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import User, Conversation, Message, Chat
-from oauth2_provider.contrib.rest_framework import OAuth2ScopedPermission
+from oauth2_provider.contrib.rest_framework import TokenHasScope
 from rest_framework.response import Response
-
 # filters for the models
 from django.shortcuts import get_object_or_404
+
+from django.http import HttpResponse
+from pprint import pprint
+
 
 # serializers for the models
 from .serializers import (
@@ -53,14 +56,20 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [
+        permissions.IsAuthenticated
+        ]
+    
+    
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["user_id"]
+    filterset_fields = ["id"]
 
     def get_queryset(self):
         """
         Filter the queryset by the user id
         """
+        print(self.request.user)
+        # Convert data to a readable string
         return filter_by_user(self.queryset, self.request.user.id)
 
 
@@ -74,7 +83,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
 
     permission_classes = [
         permissions.IsAuthenticated,
-        OAuth2ScopedPermission,
+        TokenHasScope,
         isPerticipantOfConversation,
     ]
 
@@ -96,7 +105,6 @@ class ConversationViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_authenticated:
             return Conversation.objects.filter(participants=user).distinct()
-        # return self.queryset.filter(participants=self.request.user)
         return Conversation.objects.none()
 
 
@@ -109,7 +117,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     permission_classes = [
         permissions.IsAuthenticated,
-        OAuth2ScopedPermission,
+        TokenHasScope,
         isPerticipantOfConversation,
     ]
 
@@ -179,7 +187,7 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 class ChatViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows chats to be viewed or edited.
+    API endpoint to returns chat history.
     """
 
     queryset = Chat.objects.all()
