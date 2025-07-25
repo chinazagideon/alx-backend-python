@@ -21,14 +21,27 @@ class isPerticipantOfConversation(permissions.BasePermission):
         if not (request.user and request.user.is_authenticated):
             return False
         
-        if isinstance(obj, type(view.queryset.model)): 
-            return request.user in obj.conversation.all()
+        #determine objected type
+        conversation = None
+        if hasattr(obj, 'conversation'): #check if object is a message obj
+            conversation = obj.conversation
+        if hasattr(obj, 'perticipants'): #check if object is a conversation object
+            conversation = obj
+        if not conversation:
+            return False
         
+        #validate request user is a perticipant of conversation
+        is_perticipant = request.user in conversation.perticipants.all()
 
-        elif isinstance(obj, type(view.setmodal.modal)):
-            return request.user in obj,isPerticipantOfConversation 
+        if request.method in permissions.SAFE_METHODS: #check request method and grant perticipants access
+            return is_perticipant 
+        elif request.method in ['PUT', 'PATCH', 'DELETE']:
+            return is_perticipant
+        elif request.method == 'POST':
+            return is_perticipant
         
         return False
+
 
 
 
