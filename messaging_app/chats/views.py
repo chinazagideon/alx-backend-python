@@ -134,20 +134,48 @@ class MessageViewSet(viewsets.ModelViewSet):
 
         # check user is authenticated, general authentication
         if not self.request.user.is_authenticated:
-            return Response({'detail': "Action not authorised, login and try again"}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'detail': "Action not authorised, login and try again"}, 
+                            status=status.HTTP_403_FORBIDDEN)
         
         # check request user is a participant of conversation
         if not conversation.perticipants.filter(id=self.request.user.id).exists():
-            return Response({'detail': 'You are not a participant of this conversation'}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'detail': 'You are not a participant of this conversation'}, 
+                            status=status.HTTP_403_FORBIDDEN)
         
         serializer.save(sender=self.request.user)
+
+    def perform_update(self, serializer):
+        """
+        update conversation, conversation can only be updated by a perticipant
+        """
+
+        #retrieve message object
+        message_obj = self.get_object() 
+
+        #manaully check perticipants
+        if not Message.objects.filter(id=message_obj.id, conversation__perticipants=self.request.user).exists():
+            return Response({"detail": "Action denied due to you are not a participant of this conversation"}, 
+                            status=status.HTTP_403_FORBIDDEN)        
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        """
+        Handle delete conversation, verify request user is authorised 
+        """
+        if not Message.objects.filter(id=instance.id, conversation__participants=self.request.user).exists():
+            return Response({'detail', "Action is Unauthorised"}, status=status.HTTP_403_FORBIDDEN)
+        
+        instance.delete()
 
     def get_queryset(self):
         """
         Filter the queryset by the user's conversations
         """
-        return self.queryset.filter(conversation__participants=self.request.user)
-
+        user = self.request.user
+        if  user.is_authenticated:
+            user_conversation = Conversation.objects.filter(participants=user)
+            return Message.objects.filter(conversation__in=user_conversation)
+        return Message.objects.none()
 
 class ChatViewSet(viewsets.ModelViewSet):
     """
