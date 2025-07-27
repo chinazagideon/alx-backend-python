@@ -136,12 +136,13 @@ MIDDLEWARE = [
 
     #restrict access by time middleware
     'chats.middleware.RestrictAccessByTimeMiddleware',
-    
+
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    #lock down app on off time period
-    'chats.middleware.RestrictAccessByTimeMiddleware',
+    
+    #rate limit message
+    'chats.middleware.OffensiveLanguageMiddleware',
     
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
