@@ -1,10 +1,11 @@
 # chats/middleware.py
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 from django.utils import timezone
 import os
 from django.http import HttpResponseForbidden
+from collections import defaultdict, deque
 
 # configure request logger
 logger = logging.getLogger("request_logger")
@@ -29,6 +30,70 @@ if not logger.handlers:
     logger.addHandler(log_file_handler)
     logger.setLevel(logging.INFO)  # set logger level
 
+
+class OffensiveLanguageMiddleware:
+    """
+    Track messages and limit number of message per ip
+    """
+
+    # store request stamps for each Ip address
+    IP_REQUEST_TIMESTAMPS = defaultdict(deque)
+
+    # configure rate limiting
+    RATE_LIMIT_MESSAGES = 5  # mssages per window
+    RATE_LIMIT_WINDOW_SECONDS = 60  # in time seconds
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        logging.info(
+            f"[{datetime.now()}] OffensiveLanguageMiddleware initialized. Rate limit: {self.RATE_LIMIT_MESSAGES} messages per {self.RATE_LIMIT_WINDOW_SECONDS} seconds."
+        )
+
+    def __call__(self, request):
+        # get user IP address
+        # use X-Forwarded-For if behind a proxy otherwise REMOTE_ADDR
+        ip_address = request.META.get("X-Forwarded-For")
+        if ip_address:
+            # consideration, if X-forwarded-for is a list pick the first
+            ip_address = ip_address.split(",")[0].strip()
+        else:
+            ip_address = request.META.get("REMOTE_ADDR")
+        response = self.get_response(request)
+        if request.method == "POST":
+            current_time = datetime.now()
+
+            # get the daque of timestamp for ip
+            timestamps = self.IP_REQUEST_TIMESTAMPS[ip_address]
+
+            logging.warning(len(timestamps))
+
+            # Remove timestamps that are outside the time window
+            # Iterate from the left (oldest) and remove if too old
+            while timestamps and timestamps[0] < current_time - timedelta(
+                seconds=self.RATE_LIMIT_WINDOW_SECONDS
+            ):
+                timestamps.popleft()
+
+            # check if current request would exceed the limit
+            if (
+                len(timestamps) >= self.RATE_LIMIT_MESSAGES
+            ):  
+                user = (
+                    request.user if request.user.is_authenticated else "AnonymousUser"
+                )
+                logging.warning(
+                    f"[{datetime.now()}] Rate limit exceeded for IP: {ip_address} (User: {user}) - "
+                    f"Path: {request.path}. Limit: {self.RATE_LIMIT_MESSAGES} messages per {self.RATE_LIMIT_WINDOW_SECONDS}s."
+                )
+
+                return HttpResponseForbidden(
+                    f"You have exceeded the message rate limit of {self.RATE_LIMIT_MESSAGES} messages per minute. Please try again later."
+                )
+            # add current time to the daque for tracking
+            timestamps.append(current_time)
+        return response
+
+
 class RestrictAccessByTimeMiddleware:
     """
     Middleware to restrict access to the messaging app during certain hours of the day.
@@ -38,25 +103,29 @@ class RestrictAccessByTimeMiddleware:
 
     def __init__(self, get_response):
         self.get_response = get_response
-        self.start_hour = 9 #9 AM
-        self.end_hour = 18 #6PM
-        logging.info(f"[{datetime.now()}] RestrictAccessByTimeMiddleware initialized. Access allowed between {self.start_hour}:00 and {self.end_hour}:00.")
+        self.start_hour = 9  # 9 AM
+        self.end_hour = 18  # 6PM
+        logging.info(
+            f"[{datetime.now()}] RestrictAccessByTimeMiddleware initialized."
+            f"Access allowed between {self.start_hour}:00 and {self.end_hour}:00."
+        )
 
     def __call__(self, request):
         current_hour = datetime.now().hour
 
-        #check current hour
+        # check current hour
         if not (self.start_hour <= current_hour < self.end_hour):
             # deny access
             logging.warning(f"[{datetime.now}] access denied path: {request.path} ")
-            return HttpResponseForbidden("Access to the messaging app is restricted outside of 9 AM and 6 PM.")
-        
+            return HttpResponseForbidden(
+                "Access to the messaging app is restricted outside of 9 AM and 6 PM."
+            )
+
         # proceed request if outside restricted time
         response = self.get_response(request)
         return response
 
 
-        
 class RequestLoggingMiddleware:
     """
     Middleware to log user requests to file

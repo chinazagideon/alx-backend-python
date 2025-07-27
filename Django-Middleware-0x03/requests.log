@@ -97,3 +97,342 @@ process_response log auth user
 process_response log auth user
 2025-07-27 13:20:01.311491 - User: John Doe - Path /api/messages/
 2025-07-27 13:20:01.311519 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 14:49:57.349956] RequestLoggingMiddleware initialised
+[2025-07-27 15:15:51.305616] RequestLoggingMiddleware initialised
+[2025-07-27 15:16:26.011088] RequestLoggingMiddleware initialised
+[2025-07-27 15:16:29.533272] RequestLoggingMiddleware initialised
+[2025-07-27 15:16:35.123423] RequestLoggingMiddleware initialised
+[2025-07-27 15:16:44.903718] RequestLoggingMiddleware initialised
+[2025-07-27 15:17:11.230563] RequestLoggingMiddleware initialised
+[2025-07-27 15:17:19.047218] RequestLoggingMiddleware initialised
+[2025-07-27 15:17:48.615826] RequestLoggingMiddleware initialised
+[2025-07-27 15:19:18.149139] RequestLoggingMiddleware initialised
+[2025-07-27 15:19:47.237901] RequestLoggingMiddleware initialised
+[2025-07-27 15:19:55.393045] RequestLoggingMiddleware initialised
+[2025-07-27 15:19:57.877863] RequestLoggingMiddleware initialised
+[2025-07-27 15:20:01.586530] RequestLoggingMiddleware initialised
+[2025-07-27 15:20:13.612559] RequestLoggingMiddleware initialised
+[2025-07-27 15:20:16.296438] RequestLoggingMiddleware initialised
+[2025-07-27 15:20:31.385955] RequestLoggingMiddleware initialised
+[2025-07-27 15:20:33.980423] RequestLoggingMiddleware initialised
+[2025-07-27 15:20:35.605799] RequestLoggingMiddleware initialised
+[2025-07-27 15:20:43.250998] RequestLoggingMiddleware initialised
+[2025-07-27 15:20:44.856648] RequestLoggingMiddleware initialised
+[2025-07-27 15:21:00.056567] RequestLoggingMiddleware initialised
+[2025-07-27 15:21:12.301120] RequestLoggingMiddleware initialised
+[2025-07-27 15:21:14.801442] RequestLoggingMiddleware initialised
+[2025-07-27 15:21:19.517390] RequestLoggingMiddleware initialised
+[2025-07-27 15:21:32.590536] RequestLoggingMiddleware initialised
+[2025-07-27 15:21:37.250393] RequestLoggingMiddleware initialised
+[2025-07-27 15:21:39.738650] RequestLoggingMiddleware initialised
+[2025-07-27 15:21:57.037053] RequestLoggingMiddleware initialised
+[2025-07-27 15:22:01.925827] RequestLoggingMiddleware initialised
+[2025-07-27 15:22:14.125876] RequestLoggingMiddleware initialised
+[2025-07-27 15:23:04.957976] RequestLoggingMiddleware initialised
+[2025-07-27 15:23:51.222939] RequestLoggingMiddleware initialised
+[2025-07-27 15:24:09.439732] RequestLoggingMiddleware initialised
+[2025-07-27 15:24:16.478503] RequestLoggingMiddleware initialised
+[2025-07-27 15:24:18.985761] RequestLoggingMiddleware initialised
+[2025-07-27 15:24:25.610243] RequestLoggingMiddleware initialised
+[2025-07-27 15:24:28.114720] RequestLoggingMiddleware initialised
+[2025-07-27 15:24:38.276199] RequestLoggingMiddleware initialised
+[2025-07-27 15:24:40.793674] RequestLoggingMiddleware initialised
+[2025-07-27 15:24:49.984894] RequestLoggingMiddleware initialised
+[2025-07-27 15:25:03.173668] RequestLoggingMiddleware initialised
+[2025-07-27 15:25:16.159934] RequestLoggingMiddleware initialised
+[2025-07-27 15:25:28.055847] RequestLoggingMiddleware initialised
+[2025-07-27 15:25:39.018272] RequestLoggingMiddleware initialised
+[2025-07-27 15:25:57.030925] RequestLoggingMiddleware initialised
+[2025-07-27 15:26:01.674098] RequestLoggingMiddleware initialised
+[2025-07-27 15:26:08.734790] RequestLoggingMiddleware initialised
+[2025-07-27 15:26:12.293387] RequestLoggingMiddleware initialised
+[2025-07-27 15:26:16.992995] RequestLoggingMiddleware initialised
+[2025-07-27 15:27:39.111844] RequestLoggingMiddleware initialised
+[2025-07-27 15:28:13.988929] RequestLoggingMiddleware initialised
+[2025-07-27 15:28:16.575048] RequestLoggingMiddleware initialised
+[2025-07-27 15:28:18.073342] RequestLoggingMiddleware initialised
+[2025-07-27 15:29:02.227369] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 15:29:05.056560 - User: AnonymousUser - Path: /o/token/
+2025-07-27 15:29:05.056623 - Execution time 0.49 seconds, User - Anon
+process_response log auth user
+2025-07-27 15:29:05.123325 - User: AnonymousUser - Path: /api/messages/
+2025-07-27 15:29:05.123364 - Execution time 0.01 seconds, User - Anon
+process_response log auth user
+2025-07-27 15:29:21.623126 - User: John Doe - Path: /o/authorize/
+2025-07-27 15:29:21.623213 - Execution time 0.11 seconds, User - John Doe
+process_response log auth user
+2025-07-27 15:29:22.900916 - User: John Doe - Path: /o/authorize/
+2025-07-27 15:29:22.900982 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 15:29:23.122000 - User: AnonymousUser - Path: /o/token/
+2025-07-27 15:29:23.122057 - Execution time 0.01 seconds, User - Anon
+process_response log auth user
+2025-07-27 15:29:31.375846 - User: John Doe - Path: /api/messages/
+2025-07-27 15:29:31.375881 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 15:29:51.512031] RequestLoggingMiddleware initialised
+[2025-07-27 15:30:00.455719] RequestLoggingMiddleware initialised
+[2025-07-27 15:30:01.949982] RequestLoggingMiddleware initialised
+[2025-07-27 15:30:06.586736] RequestLoggingMiddleware initialised
+[2025-07-27 15:30:24.002348] RequestLoggingMiddleware initialised
+[2025-07-27 15:30:26.550326] RequestLoggingMiddleware initialised
+[2025-07-27 15:42:57.304646] RequestLoggingMiddleware initialised
+[2025-07-27 15:43:11.375625] RequestLoggingMiddleware initialised
+[2025-07-27 15:43:22.246644] RequestLoggingMiddleware initialised
+[2025-07-27 15:43:26.819871] RequestLoggingMiddleware initialised
+[2025-07-27 15:43:39.813602] RequestLoggingMiddleware initialised
+[2025-07-27 15:44:13.636162] RequestLoggingMiddleware initialised
+[2025-07-27 15:44:17.242721] RequestLoggingMiddleware initialised
+[2025-07-27 15:44:37.532964] RequestLoggingMiddleware initialised
+[2025-07-27 15:44:46.662880] RequestLoggingMiddleware initialised
+[2025-07-27 15:45:46.327150] RequestLoggingMiddleware initialised
+[2025-07-27 15:45:59.420454] RequestLoggingMiddleware initialised
+[2025-07-27 15:46:04.265817] RequestLoggingMiddleware initialised
+[2025-07-27 15:46:06.775223] RequestLoggingMiddleware initialised
+[2025-07-27 15:46:29.079592] RequestLoggingMiddleware initialised
+[2025-07-27 15:46:37.912266] RequestLoggingMiddleware initialised
+[2025-07-27 15:46:42.477825] RequestLoggingMiddleware initialised
+[2025-07-27 15:46:56.529663] RequestLoggingMiddleware initialised
+[2025-07-27 15:47:09.534877] RequestLoggingMiddleware initialised
+[2025-07-27 15:47:12.028296] RequestLoggingMiddleware initialised
+[2025-07-27 15:47:14.510934] RequestLoggingMiddleware initialised
+[2025-07-27 15:47:17.011368] RequestLoggingMiddleware initialised
+[2025-07-27 15:47:26.075852] RequestLoggingMiddleware initialised
+[2025-07-27 15:47:33.854059] RequestLoggingMiddleware initialised
+[2025-07-27 15:47:39.527064] RequestLoggingMiddleware initialised
+[2025-07-27 15:47:59.807133] RequestLoggingMiddleware initialised
+[2025-07-27 15:48:04.348797] RequestLoggingMiddleware initialised
+[2025-07-27 16:11:01.711727] RequestLoggingMiddleware initialised
+[2025-07-27 16:11:45.267985] RequestLoggingMiddleware initialised
+[2025-07-27 16:12:15.639891] RequestLoggingMiddleware initialised
+[2025-07-27 16:12:19.180711] RequestLoggingMiddleware initialised
+[2025-07-27 16:12:20.666674] RequestLoggingMiddleware initialised
+[2025-07-27 16:12:22.140124] RequestLoggingMiddleware initialised
+[2025-07-27 16:12:26.744113] RequestLoggingMiddleware initialised
+[2025-07-27 16:12:31.308142] RequestLoggingMiddleware initialised
+[2025-07-27 16:12:36.934883] RequestLoggingMiddleware initialised
+[2025-07-27 16:12:39.590125] RequestLoggingMiddleware initialised
+[2025-07-27 16:13:39.658684] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:13:57.619565 - User: John Doe - Path: /api/messages/
+2025-07-27 16:13:57.624966 - Execution time 0.03 seconds, User - John Doe
+[2025-07-27 16:16:11.815769] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:16:15.166447 - User: John Doe - Path: /api/messages/
+2025-07-27 16:16:15.166480 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:18:15.511644] RequestLoggingMiddleware initialised
+[2025-07-27 16:18:22.316904] RequestLoggingMiddleware initialised
+[2025-07-27 16:18:25.859949] RequestLoggingMiddleware initialised
+[2025-07-27 16:18:30.500727] RequestLoggingMiddleware initialised
+[2025-07-27 16:18:37.129154] RequestLoggingMiddleware initialised
+[2025-07-27 16:19:16.579226] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:19:19.638244 - User: John Doe - Path: /api/messages/
+2025-07-27 16:19:19.638277 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:20:07.510437 - User: AnonymousUser - Path: /api/conversations
+2025-07-27 16:20:07.510658 - Execution time 0.01 seconds, User - Anon
+process_response log auth user
+2025-07-27 16:20:18.298607 - User: John Doe - Path: /api/conversations/
+2025-07-27 16:20:18.298834 - Execution time 0.03 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:20:28.962858 - User: John Doe - Path: /api/messages/
+2025-07-27 16:20:28.962939 - Execution time 0.02 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:20:37.707552 - User: AnonymousUser - Path: /api/conversation/14/messages/
+2025-07-27 16:20:37.707636 - Execution time 0.01 seconds, User - Anon
+process_response log auth user
+2025-07-27 16:20:47.288679 - User: AnonymousUser - Path: /api/conversations/14/messages/
+2025-07-27 16:20:47.288789 - Execution time 0.01 seconds, User - Anon
+process_response log auth user
+2025-07-27 16:20:55.963859 - User: John Doe - Path: /api/messages/
+2025-07-27 16:20:55.963921 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:20:59.396374 - User: John Doe - Path: /api/messages/
+2025-07-27 16:20:59.396436 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:21:00.122175 - User: John Doe - Path: /api/messages/
+2025-07-27 16:21:00.122199 - Execution time 0.00 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:21:00.675098 - User: John Doe - Path: /api/messages/
+2025-07-27 16:21:00.675141 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:21:01.385621 - User: John Doe - Path: /api/messages/
+2025-07-27 16:21:01.385654 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:21:02.066398 - User: John Doe - Path: /api/messages/
+2025-07-27 16:21:02.066460 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:21:04.593016 - User: John Doe - Path: /api/messages/
+2025-07-27 16:21:04.593076 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:21:19.222936 - User: John Doe - Path: /api/messages/
+2025-07-27 16:21:19.222973 - Execution time 0.02 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:21:20.059919 - User: John Doe - Path: /api/messages/
+2025-07-27 16:21:20.059950 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:21:20.626766 - User: John Doe - Path: /api/messages/
+2025-07-27 16:21:20.626828 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:21:36.370659] RequestLoggingMiddleware initialised
+[2025-07-27 16:23:09.713266] RequestLoggingMiddleware initialised
+[2025-07-27 16:23:11.177754] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:23:18.703816 - User: John Doe - Path: /api/messages/
+2025-07-27 16:23:18.703848 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:23:35.559087] RequestLoggingMiddleware initialised
+[2025-07-27 16:23:44.220014] RequestLoggingMiddleware initialised
+[2025-07-27 16:23:47.776441] RequestLoggingMiddleware initialised
+[2025-07-27 16:23:51.326432] RequestLoggingMiddleware initialised
+[2025-07-27 16:23:53.817791] RequestLoggingMiddleware initialised
+[2025-07-27 16:23:56.343813] RequestLoggingMiddleware initialised
+[2025-07-27 16:23:58.857652] RequestLoggingMiddleware initialised
+[2025-07-27 16:24:01.344480] RequestLoggingMiddleware initialised
+[2025-07-27 16:24:04.909682] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:24:06.814559 - User: John Doe - Path: /api/messages/
+2025-07-27 16:24:06.814590 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:24:41.910704] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:24:45.313549 - User: John Doe - Path: /api/messages/
+2025-07-27 16:24:45.313589 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:25:21.872266] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:25:22.298392 - User: John Doe - Path: /api/messages/
+2025-07-27 16:25:22.298431 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:26:42.109189] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:26:42.873065 - User: John Doe - Path: /api/messages/
+2025-07-27 16:26:42.873093 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:27:09.536927] RequestLoggingMiddleware initialised
+[2025-07-27 16:27:12.038860] RequestLoggingMiddleware initialised
+[2025-07-27 16:27:18.133936] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:27:20.406336 - User: John Doe - Path: /api/messages/
+2025-07-27 16:27:20.406370 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:27:34.419508] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:27:35.758740 - User: John Doe - Path: /api/messages/
+2025-07-27 16:27:35.758775 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:27:56.938568] RequestLoggingMiddleware initialised
+[2025-07-27 16:27:59.473828] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:28:00.375205 - User: John Doe - Path: /api/messages/
+2025-07-27 16:28:00.375242 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:28:00.881158 - User: John Doe - Path: /api/messages/
+2025-07-27 16:28:00.881188 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:28:05.987247 - User: John Doe - Path: /api/messages/
+2025-07-27 16:28:05.987288 - Execution time 0.02 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:28:06.431824 - User: John Doe - Path: /api/messages/
+2025-07-27 16:28:06.431852 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:28:07.354294 - User: John Doe - Path: /api/messages/
+2025-07-27 16:28:07.354319 - Execution time 0.00 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:28:08.160005 - User: John Doe - Path: /api/messages/
+2025-07-27 16:28:08.160070 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:28:09.108018 - User: John Doe - Path: /api/messages/
+2025-07-27 16:28:09.108080 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:31:07.990517] RequestLoggingMiddleware initialised
+[2025-07-27 16:31:19.943426] RequestLoggingMiddleware initialised
+[2025-07-27 16:31:23.445356] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:31:27.925561 - User: AnonymousUser - Path: /o/token/
+2025-07-27 16:31:27.925642 - Execution time 0.47 seconds, User - Anon
+process_response log auth user
+2025-07-27 16:31:28.000320 - User: AnonymousUser - Path: /api/messages/
+2025-07-27 16:31:28.000355 - Execution time 0.00 seconds, User - Anon
+process_response log auth user
+2025-07-27 16:31:42.225458 - User: John Doe - Path: /o/authorize/
+2025-07-27 16:31:42.225759 - Execution time 0.02 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:43.772862 - User: John Doe - Path: /o/authorize/
+2025-07-27 16:31:43.772949 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:43.980749 - User: AnonymousUser - Path: /o/token/
+2025-07-27 16:31:43.980807 - Execution time 0.01 seconds, User - Anon
+process_response log auth user
+2025-07-27 16:31:49.629059 - User: John Doe - Path: /api/messages/
+2025-07-27 16:31:49.629098 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:50.658598 - User: John Doe - Path: /api/messages/
+2025-07-27 16:31:50.658632 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:51.205750 - User: John Doe - Path: /api/messages/
+2025-07-27 16:31:51.205810 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:51.754912 - User: John Doe - Path: /api/messages/
+2025-07-27 16:31:51.754975 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:52.247814 - User: John Doe - Path: /api/messages/
+2025-07-27 16:31:52.247905 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:52.814698 - User: John Doe - Path: /api/messages/
+2025-07-27 16:31:52.814732 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:53.408659 - User: John Doe - Path: /api/messages/
+2025-07-27 16:31:53.408724 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:31:54.726333 - User: John Doe - Path: /api/messages/
+2025-07-27 16:31:54.726365 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:32:49.563915] RequestLoggingMiddleware initialised
+[2025-07-27 16:33:03.880997] RequestLoggingMiddleware initialised
+[2025-07-27 16:33:06.352674] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:33:10.226431 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:10.226464 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:33:10.969242 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:10.969273 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:33:11.541110 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:11.541172 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:33:12.136165 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:12.136231 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:33:12.791130 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:12.791161 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:33:46.910352] RequestLoggingMiddleware initialised
+[2025-07-27 16:33:50.530795] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:33:52.485361 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:52.485389 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:33:53.277034 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:53.277063 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:33:53.906062 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:53.906119 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:33:54.541553 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:54.541587 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:33:55.258248 - User: John Doe - Path: /api/messages/
+2025-07-27 16:33:55.258307 - Execution time 0.01 seconds, User - John Doe
+[2025-07-27 16:34:11.825677] RequestLoggingMiddleware initialised
+[2025-07-27 16:34:18.624462] RequestLoggingMiddleware initialised
+[2025-07-27 16:34:25.410917] RequestLoggingMiddleware initialised
+[2025-07-27 16:34:31.001759] RequestLoggingMiddleware initialised
+process_response log auth user
+2025-07-27 16:34:34.506246 - User: John Doe - Path: /api/messages/
+2025-07-27 16:34:34.506317 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:34:35.491422 - User: John Doe - Path: /api/messages/
+2025-07-27 16:34:35.491454 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:34:36.209563 - User: John Doe - Path: /api/messages/
+2025-07-27 16:34:36.209629 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:34:37.538838 - User: John Doe - Path: /api/messages/
+2025-07-27 16:34:37.538900 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:34:38.158762 - User: John Doe - Path: /api/messages/
+2025-07-27 16:34:38.158796 - Execution time 0.01 seconds, User - John Doe
+process_response log auth user
+2025-07-27 16:34:38.877411 - User: John Doe - Path: /api/messages/
+2025-07-27 16:34:38.877477 - Execution time 0.01 seconds, User - John Doe

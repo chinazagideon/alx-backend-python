@@ -133,9 +133,16 @@ MIDDLEWARE = [
     # cors - MUST be first middleware
     "corsheaders.middleware.CorsMiddleware",
     # django
+
+    #restrict access by time middleware
+    'chats.middleware.RestrictAccessByTimeMiddleware',
+    
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    #lock down app on off time period
+    'chats.middleware.RestrictAccessByTimeMiddleware',
+    
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -143,8 +150,7 @@ MIDDLEWARE = [
 
     #log request
     'chats.middleware.RequestLoggingMiddleware',
-    #restrict access by time middleware
-    'chats.middleware.RestrictAccessByTimeMiddleware',
+    
 
 ]
 ROOT_URLCONF = "messaging_app.urls"

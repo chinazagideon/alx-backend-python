@@ -130,20 +130,24 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # cors - MUST be first middleware
     "corsheaders.middleware.CorsMiddleware",
-
-    #lock down app on off time period
-    'chats.middleware.RestrictAccessByTimeMiddleware',
     # django
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
+    "django.middleware.common.CommonMiddleware",    
+    
+    #lock down app on off time period
+    'chats.middleware.RestrictAccessByTimeMiddleware',
+    
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 
+    #rate limit message
+    'chats.middleware.OffensiveLanguageMiddleware',
     #log request
     'chats.middleware.RequestLoggingMiddleware',
+
 ]
 ROOT_URLCONF = "messaging_app.urls"
 
