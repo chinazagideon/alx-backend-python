@@ -35,16 +35,23 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+class MessageStatus(models.TextChoices):
+    PENDING = "pending", "Pending"
+    SENT = "sent", "Sent"
+    DELIVERED = "delivered", "Delivered"
+    READ = "read", "Read"
+
 class Message(models.Model):
     """
     This model is used to store the message details
     """
-
+    
     message_id = models.AutoField(primary_key=True)
     conversation = models.ForeignKey(
         settings.AUTH_CONVERSATION_MODEL, on_delete=models.CASCADE, related_name="messages"
     )
     message_body = models.TextField(null=False, blank=False)
+    status = models.CharField(max_length=20, choices=MessageStatus.choices, default=MessageStatus.PENDING)
     sent_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

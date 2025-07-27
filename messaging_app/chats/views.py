@@ -7,14 +7,17 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import User, Conversation, Message, Chat
-from oauth2_provider.contrib.rest_framework import TokenHasScope
+from .permissions import TokenHasScope
 from rest_framework.response import Response
 # filters for the models
 from django.shortcuts import get_object_or_404
 
 from django.http import HttpResponse
 from pprint import pprint
+import logging
 
+# Set up logger for token scope debugging
+logger = logging.getLogger(__name__)
 
 # serializers for the models
 from .serializers import (
@@ -25,7 +28,68 @@ from .serializers import (
 )
 
 # import permissions
-from .permissions import isPerticipantOfConversation
+from .permissions import isParticipantOfConversation
+
+
+def log_token_scopes(request, view_name, view_class=None):
+    """
+    Log the token scopes for debugging purposes
+    """
+    logger.info(f"[{view_name}] HTTP Method: {request.method}")
+    
+    # Also print to console for immediate visibility during development
+    print(f"\n=== TOKEN SCOPE DEBUG [{view_name}] ===")
+    print(f"HTTP Method: {request.method}")
+    print(f"Request URL: {request.path}")
+    
+    if hasattr(request, 'auth') and request.auth:
+        token = request.auth
+        if hasattr(token, 'scope'):
+            print(f"Token scopes: {token.scope}")
+            print(f"Token is valid: {token.is_valid()}")
+            print(f"Token is expired: {token.is_expired()}")
+            
+            logger.info(f"[{view_name}] Token: {token}")
+            
+            logger.info(f"[{view_name}] Token scopes: {token.scope}")
+            logger.info(f"[{view_name}] Token is valid: {token.is_valid()}")
+            logger.info(f"[{view_name}] Token is expired: {token.is_expired()}")
+            
+            # Get required scopes from the view class if provided
+            if view_class and hasattr(view_class, 'required_scopes'):
+                required_scopes = getattr(view_class, 'required_scopes', {})
+                current_method_scopes = required_scopes.get(request.method, [])
+                print(f"Required scopes for {request.method}: {current_method_scopes}")
+                print(f"All required scopes: {required_scopes}")
+                logger.info(f"[{view_name}] Required scopes for {request.method}: {current_method_scopes}")
+                logger.info(f"[{view_name}] All required scopes: {required_scopes}")
+                
+                # Test the actual token.is_valid() call that TokenHasScope uses
+                print(f"Testing token.is_valid({current_method_scopes}): {token.is_valid(current_method_scopes)}")
+                logger.info(f"[{view_name}] token.is_valid({current_method_scopes}): {token.is_valid(current_method_scopes)}")
+                
+                # Show what TokenHasScope actually receives
+                print(f"TokenHasScope receives: required_scopes = {required_scopes}")
+                logger.info(f"[{view_name}] TokenHasScope receives: required_scopes = {required_scopes}")
+            else:
+                print(f"No required_scopes found for {view_name}")
+                logger.info(f"[{view_name}] No required_scopes found")
+        else:
+            print("Token has no scope attribute")
+            logger.warning(f"[{view_name}] Token has no scope attribute")
+    else:
+        print("No token found in request")
+        logger.warning(f"[{view_name}] No token found in request")
+    
+    print("=== END TOKEN SCOPE DEBUG ===\n")
+
+
+def test_logging(request):
+    """
+    Simple test endpoint to verify logging is working
+    """
+    log_token_scopes(request, "TestEndpoint")
+    return HttpResponse("Logging test completed - check console and debug.log")
 
 
 def filter_by_user(queryset, user_id):
@@ -62,7 +126,7 @@ class UserViewSet(viewsets.ModelViewSet):
     
     
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["id"]
+    filterset_fields = ["user_id"]
 
     def get_queryset(self):
         """
@@ -70,7 +134,7 @@ class UserViewSet(viewsets.ModelViewSet):
         """
         print(self.request.user)
         # Convert data to a readable string
-        return filter_by_user(self.queryset, self.request.user.id)
+        return filter_by_user(self.queryset, self.request.user.user_id)
 
 
 class ConversationViewSet(viewsets.ModelViewSet):
@@ -84,15 +148,15 @@ class ConversationViewSet(viewsets.ModelViewSet):
     permission_classes = [
         permissions.IsAuthenticated,
         TokenHasScope,
-        isPerticipantOfConversation,
+        isParticipantOfConversation,
     ]
 
     required_scopes = {
         "GET": ["read:messages"],
         "POST": ["manage:conversations"],
         "PUT": ["manage:conversations"],
-        "PATCH": ["manage:conversations"],
-        "DELETE": ["manage:conversations"],
+        # "PATCH": ["manage:conversations"],
+        # "DELETE": ["manage:conversations"],
     }
 
     filter_backends = [DjangoFilterBackend]
@@ -118,7 +182,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     permission_classes = [
         permissions.IsAuthenticated,
         TokenHasScope,
-        isPerticipantOfConversation,
+        isParticipantOfConversation,
     ]
 
     required_scopes = {
@@ -146,11 +210,13 @@ class MessageViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_403_FORBIDDEN)
         
         # check request user is a participant of conversation
-        if not conversation.perticipants.filter(id=self.request.user.id).exists():
+        if not conversation.participants.filter(user_id=self.request.user.user_id).exists():
             return Response({'detail': 'You are not a participant of this conversation'}, 
                             status=status.HTTP_403_FORBIDDEN)
         
-        serializer.save(sender=self.request.user)
+        logger.info(f"[{self.request.user.user_id}] Sending message to conversation: {conversation.conversation_id}")
+        
+        serializer.save(status="sent")
 
     def perform_update(self, serializer):
         """
@@ -160,8 +226,8 @@ class MessageViewSet(viewsets.ModelViewSet):
         #retrieve message object
         message_obj = self.get_object() 
 
-        #manaully check perticipants
-        if not Message.objects.filter(id=message_obj.id, conversation__perticipants=self.request.user).exists():
+        #manually check participants
+        if not Message.objects.filter(message_id=message_obj.message_id, conversation__participants=self.request.user).exists():
             return Response({"detail": "Action denied due to you are not a participant of this conversation"}, 
                             status=status.HTTP_403_FORBIDDEN)        
         serializer.save()
@@ -170,7 +236,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         """
         Handle delete conversation, verify request user is authorised 
         """
-        if not Message.objects.filter(id=instance.id, conversation__participants=self.request.user).exists():
+        if not Message.objects.filter(message_id=instance.message_id, conversation__participants=self.request.user).exists():
             return Response({'detail', "Action is Unauthorised"}, status=status.HTTP_403_FORBIDDEN)
         
         instance.delete()
