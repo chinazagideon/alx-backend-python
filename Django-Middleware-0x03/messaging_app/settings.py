@@ -142,7 +142,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
+    # role based permission
+    'chats.middleware.RolepermissionMiddleware',
     #rate limit message
     'chats.middleware.OffensiveLanguageMiddleware',
     #log request

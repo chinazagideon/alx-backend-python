@@ -148,6 +148,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # role based permission
+    'chats.middleware.RolepermissionMiddleware',
 
     #log request
     'chats.middleware.RequestLoggingMiddleware',

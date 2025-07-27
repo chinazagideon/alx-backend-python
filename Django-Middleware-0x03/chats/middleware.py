@@ -7,28 +7,54 @@ import os
 from django.http import HttpResponseForbidden
 from collections import defaultdict, deque
 
-# configure request logger
-logger = logging.getLogger("request_logger")
 
-# create path if it does not exist
-log_path = ""
-# if not os.path.exists(log_path):
-# os.makedirs(log_path)
+class RolepermissionMiddleware:
+    """
+    Sanitise action with Role base Middleware
+    """
 
-log_file_path = os.path.join(log_path, "requests.log")
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.restricted_paths = ["/admin"]
+        logging.info(
+            f"[{datetime.now()}] RolepermissionMiddleware  initialized. Restricted paths: {self.restricted_paths}"
+        )
 
-# create a file handler for the logger
-# logging mode "a" apend new lines to end of file
-log_file_handler = logging.FileHandler(log_file_path, "a")
+    def __call__(self, request):
+        # check request path is restricted
+        for path_prefix in self.restricted_paths:
+            logging.warning(
+                f"[{datetime.now()}] RolepermissionMiddleware path_prefix: {path_prefix}"
+            )
+            if request.path.startswith(path_prefix):
+                if not (
+                    request.user.is_authenticated
+                    and (request.user.is_staff or request.user.is_superuser)
+                ):
+                    logging.warning(
+                        f"[{datetime.now()}] RolepermissionMiddleware request path: {request.path}"
+                    )
+                    logging.warning(
+                        f"[{datetime.now()}] RolepermissionMiddleware request user staff: {request.user.is_staff}"
+                    )
+                    logging.warning(f"[{datetime.now()}] RolepermissionMiddleware request user is_staff: {request.user}")
 
-# define message format
-formatter = logging.Formatter("%(message)s")
-log_file_handler.setFormatter(formatter)
+                    user_info = (
+                        request.user.first_name
+                        if request.user.is_authenticated
+                        else "AnonymousUser"
+                    )
+                    logging.warning(
+                        f"[{datetime.now()}] Access denied for User: {user_info} - "
+                        f"{request.path} - requires admin role/moderator privileges"
+                    )
+                    return HttpResponseForbidden(
+                        "Access denied, you do not have permission to access this resource"
+                    )
 
-# add logger handlers, prevent multiple handlers if request is already loaded
-if not logger.handlers:
-    logger.addHandler(log_file_handler)
-    logger.setLevel(logging.INFO)  # set logger level
+        # proceed request if not restricted
+        response = self.get_response(request)
+        return response
 
 
 class OffensiveLanguageMiddleware:
@@ -65,8 +91,6 @@ class OffensiveLanguageMiddleware:
             # get the daque of timestamp for ip
             timestamps = self.IP_REQUEST_TIMESTAMPS[ip_address]
 
-            logging.warning(len(timestamps))
-
             # Remove timestamps that are outside the time window
             # Iterate from the left (oldest) and remove if too old
             while timestamps and timestamps[0] < current_time - timedelta(
@@ -75,13 +99,11 @@ class OffensiveLanguageMiddleware:
                 timestamps.popleft()
 
             # check if current request would exceed the limit
-            if (
-                len(timestamps) >= self.RATE_LIMIT_MESSAGES
-            ):  
+            if len(timestamps) >= self.RATE_LIMIT_MESSAGES:
                 user = (
                     request.user if request.user.is_authenticated else "AnonymousUser"
                 )
-                logging.warning(
+                logging.info(
                     f"[{datetime.now()}] Rate limit exceeded for IP: {ip_address} (User: {user}) - "
                     f"Path: {request.path}. Limit: {self.RATE_LIMIT_MESSAGES} messages per {self.RATE_LIMIT_WINDOW_SECONDS}s."
                 )
@@ -126,6 +148,30 @@ class RestrictAccessByTimeMiddleware:
         return response
 
 
+# configure request logger
+logger = logging.getLogger("request_logger")
+
+# create path if it does not exist
+log_path = ""
+# if not os.path.exists(log_path):
+# os.makedirs(log_path)
+
+log_file_path = os.path.join(log_path, "requests.log")
+
+# create a file handler for the logger
+# logging mode "a" apend new lines to end of file
+log_file_handler = logging.FileHandler(log_file_path, "a")
+
+# define message format
+formatter = logging.Formatter("%(message)s")
+log_file_handler.setFormatter(formatter)
+
+# add logger handlers, prevent multiple handlers if request is already loaded
+if not logger.handlers:
+    logger.addHandler(log_file_handler)
+    logger.setLevel(logging.INFO)  # set logger level
+
+
 class RequestLoggingMiddleware:
     """
     Middleware to log user requests to file
@@ -166,7 +212,6 @@ class RequestLoggingMiddleware:
 
         # request user
         self.user = request.user
-        logger.info("process_response log auth user")
         # log the request information
         log_message = f"{datetime.now()} - User: {self.user} - Path: {request.path}"
         # log message to file
