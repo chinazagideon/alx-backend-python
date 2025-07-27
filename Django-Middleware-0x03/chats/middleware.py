@@ -2,7 +2,9 @@
 import logging
 from datetime import datetime
 import time
+from django.utils import timezone
 import os
+from django.http import HttpResponseForbidden
 
 # configure request logger
 logger = logging.getLogger("request_logger")
@@ -27,7 +29,34 @@ if not logger.handlers:
     logger.addHandler(log_file_handler)
     logger.setLevel(logging.INFO)  # set logger level
 
+class RestrictAccessByTimeMiddleware:
+    """
+    Middleware to restrict access to the messaging app during certain hours of the day.
+    Denies access with a 403 Forbidden error if the current server time is outside
+    9 AM (09:00) and 6 PM (18:00).
+    """
 
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.start_hour = 9 #9 AM
+        self.end_hour = 18 #6PM
+        logging.info(f"[{datetime.now()}] RestrictAccessByTimeMiddleware initialized. Access allowed between {self.start_hour}:00 and {self.end_hour}:00.")
+
+    def __call__(self, request):
+        current_hour = datetime.now().hour
+
+        #check current hour
+        if not (self.start_hour <= current_hour < self.end_hour):
+            # deny access
+            logging.warning(f"[{datetime.now}] access denied path: {request.path} ")
+            return HttpResponseForbidden("Access to the messaging app is restricted outside of 9 AM and 6 PM.")
+        
+        # proceed request if outside restricted time
+        response = self.get_response(request)
+        return response
+
+
+        
 class RequestLoggingMiddleware:
     """
     Middleware to log user requests to file

@@ -130,6 +130,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # cors - MUST be first middleware
     "corsheaders.middleware.CorsMiddleware",
+
+    #lock down app on off time period
+    'chats.middleware.RestrictAccessByTimeMiddleware',
     # django
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
