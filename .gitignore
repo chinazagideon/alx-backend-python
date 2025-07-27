@@ -46,7 +46,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
+
 local_settings.py
 db.sqlite3
 
@@ -118,7 +118,7 @@ env
 .env
 
 GITHUB_ACTIONS_README.md
-*.log
+
 *.db
 .env
 *.env
