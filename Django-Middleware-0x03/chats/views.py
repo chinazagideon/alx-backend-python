@@ -35,7 +35,7 @@ def log_token_scopes(request, view_name, view_class=None):
     """
     Log the token scopes for debugging purposes
     """
-    logger.info(f"[{view_name}] HTTP Method: {request.method}")
+    # logger.info(f"[{view_name}] HTTP Method: {request.method}")
     
     # Also print to console for immediate visibility during development
     print(f"\n=== TOKEN SCOPE DEBUG [{view_name}] ===")
@@ -45,15 +45,15 @@ def log_token_scopes(request, view_name, view_class=None):
     if hasattr(request, 'auth') and request.auth:
         token = request.auth
         if hasattr(token, 'scope'):
-            print(f"Token scopes: {token.scope}")
-            print(f"Token is valid: {token.is_valid()}")
-            print(f"Token is expired: {token.is_expired()}")
+            # print(f"Token scopes: {token.scope}")
+            # print(f"Token is valid: {token.is_valid()}")
+            # print(f"Token is expired: {token.is_expired()}")
             
-            logger.info(f"[{view_name}] Token: {token}")
+            # logger.info(f"[{view_name}] Token: {token}")
             
-            logger.info(f"[{view_name}] Token scopes: {token.scope}")
-            logger.info(f"[{view_name}] Token is valid: {token.is_valid()}")
-            logger.info(f"[{view_name}] Token is expired: {token.is_expired()}")
+            # logger.info(f"[{view_name}] Token scopes: {token.scope}")
+            # logger.info(f"[{view_name}] Token is valid: {token.is_valid()}")
+            # logger.info(f"[{view_name}] Token is expired: {token.is_expired()}")
             
             # Get required scopes from the view class if provided
             if view_class and hasattr(view_class, 'required_scopes'):
@@ -61,25 +61,25 @@ def log_token_scopes(request, view_name, view_class=None):
                 current_method_scopes = required_scopes.get(request.method, [])
                 print(f"Required scopes for {request.method}: {current_method_scopes}")
                 print(f"All required scopes: {required_scopes}")
-                logger.info(f"[{view_name}] Required scopes for {request.method}: {current_method_scopes}")
-                logger.info(f"[{view_name}] All required scopes: {required_scopes}")
+                # logger.info(f"[{view_name}] Required scopes for {request.method}: {current_method_scopes}")
+                # logger.info(f"[{view_name}] All required scopes: {required_scopes}")
                 
                 # Test the actual token.is_valid() call that TokenHasScope uses
                 print(f"Testing token.is_valid({current_method_scopes}): {token.is_valid(current_method_scopes)}")
-                logger.info(f"[{view_name}] token.is_valid({current_method_scopes}): {token.is_valid(current_method_scopes)}")
+                # logger.info(f"[{view_name}] token.is_valid({current_method_scopes}): {token.is_valid(current_method_scopes)}")
                 
                 # Show what TokenHasScope actually receives
                 print(f"TokenHasScope receives: required_scopes = {required_scopes}")
-                logger.info(f"[{view_name}] TokenHasScope receives: required_scopes = {required_scopes}")
+                # logger.info(f"[{view_name}] TokenHasScope receives: required_scopes = {required_scopes}")
             else:
                 print(f"No required_scopes found for {view_name}")
-                logger.info(f"[{view_name}] No required_scopes found")
+                # logger.info(f"[{view_name}] No required_scopes found")
         else:
             print("Token has no scope attribute")
-            logger.warning(f"[{view_name}] Token has no scope attribute")
+            # logger.warning(f"[{view_name}] Token has no scope attribute")
     else:
         print("No token found in request")
-        logger.warning(f"[{view_name}] No token found in request")
+        # logger.warning(f"[{view_name}] No token found in request")
     
     print("=== END TOKEN SCOPE DEBUG ===\n")
 
@@ -214,7 +214,7 @@ class MessageViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'You are not a participant of this conversation'}, 
                             status=status.HTTP_403_FORBIDDEN)
         
-        logger.info(f"[{self.request.user.user_id}] Sending message to conversation: {conversation.conversation_id}")
+        # logger.info(f"[{self.request.user.user_id}] Sending message to conversation: {conversation.conversation_id}")
         
         serializer.save(status="sent")
 

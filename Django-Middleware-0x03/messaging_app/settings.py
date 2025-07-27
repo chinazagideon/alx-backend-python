@@ -136,6 +136,10 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+
+    #log request
+    'chats.middleware.RequestLoggingMiddleware',
+
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -239,12 +243,12 @@ LOGGING = {
     'loggers': {
         'chats': {
             'handlers': ['console', 'file'],
-            'level': 'INFO',
+            'level': 'WARNING',
             'propagate': True,
         },
         'oauth2_provider': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'WARNING',
             'propagate': True,
         },
     },
