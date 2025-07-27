@@ -6,7 +6,7 @@ This file contains the urls for the chats app
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_nested import routers as nested_routers
-from .views import UserViewSet, ConversationViewSet, MessageViewSet, ChatViewSet
+from .views import UserViewSet, ConversationViewSet, MessageViewSet, ChatViewSet, test_logging
 from rest_framework.authtoken import views as auth_views
 
 router = routers.DefaultRouter()
@@ -27,4 +27,6 @@ urlpatterns = [
     path('', include(router.urls)),
     # authentication
     path('auth/', auth_views.obtain_auth_token),
+    # test endpoint for logging
+    path('test-logging/', test_logging, name='test_logging'),
 ]

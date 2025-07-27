@@ -117,7 +117,7 @@ The application uses OAuth2 with the following scopes:
 - Message association
 - Timestamp tracking
 
-## ecurity Features
+## Security Features
 
 - **PKCE Implementation** - Prevents authorization code interception attacks
 - **Token Expiration** - Short-lived access tokens with refresh capability
