@@ -6,10 +6,11 @@ This file contains the models for the chats app
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from message.models import Message
-from .models import Conversation
 from django.conf import settings
+# from .models import Conversation
 # from uuid import uuid4
 
+# from chats.models import User # WATCHOUT: user defined in settings.py as Auth_User_Model might handle this differently
 from django.utils.translation import gettext_lazy as _
 
 
@@ -43,21 +44,19 @@ class MessageStatus(models.TextChoices):
 
 class Message(models.Model):
     """
-    Represents a single message within a conversation.
-    Updated to include a 'receiver' field for direct notifications.
+    This model is used to store the message details
     """
     
     message_id = models.AutoField(primary_key=True)
     conversation = models.ForeignKey(
-        Conversation, 
-        on_delete=models.CASCADE, 
-        related_name="messages",
-        help_text="The conversation this message belongs to."
+        settings.AUTH_CONVERSATION_MODEL, on_delete=models.CASCADE, related_name="messages"
     )
 
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='sent_messages',
         help_text="the user that sent this message"
     )
@@ -83,8 +82,7 @@ class Message(models.Model):
         ]
     
     def __str__(self):
-        return f"Message from {self.sender.username} to {self.receiver.user if self.receiver else 'conversation'} in Conversation {self.conversation.id}"
-
+        return f"{self.message_body}"
 
 class Notification(models.Model):
     """
@@ -98,9 +96,9 @@ class Notification(models.Model):
         help_text="User who receives this notification"
         )
     message = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        settings.AUTH_MESSAGE_MODEL,
         on_delete=models.CASCADE, # delete notification if message is deleted
-        related_name="the message that triggered this notification"
+        help_text="the message that triggered this notification"
     )
 
     is_read = models.BooleanField(default=False, help_text="Indicates if the user have read the message")
@@ -112,9 +110,8 @@ class Notification(models.Model):
         verbose_name_plural = "Notifications"
 
     def __str__(self):
-        return f"Notification for {self.user.username} about message {self.message.id} (Read: {self.is_read})"
-
-    
+        return f"Notification for {self.user.first_name} about message {self.message} (Read: {self.is_read}"
+                                                                                               
 class Conversation(models.Model):
     """
     This model is used to store the conversation details
