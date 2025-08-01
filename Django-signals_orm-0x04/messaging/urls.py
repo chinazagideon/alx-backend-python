@@ -6,14 +6,14 @@ This file contains the urls for the chats app
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_nested import routers as nested_routers
-from .views import UserViewSet, ConversationViewSet, MessageViewSet, ChatViewSet, test_logging
+from .views import UserViewSet, ConversationViewSet, MessageViewSet, MessageThreadViewSet, test_logging
 from rest_framework.authtoken import views as auth_views
 
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
 router.register(r"conversations", ConversationViewSet)
 router.register(r"messages", MessageViewSet)
-router.register(r"chats", ChatViewSet)
+router.register(r"message-threads", MessageThreadViewSet)
 
 # nested routers
 conversation_router = nested_routers.NestedDefaultRouter(router, r"conversations", lookup="conversation")

@@ -6,7 +6,7 @@ This file contains the views for the chats app
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import User, Conversation, Message, Chat
+from .models import User, Conversation, Message, MessageThread
 from .permissions import TokenHasScope
 from rest_framework.response import Response
 # filters for the models
@@ -24,7 +24,7 @@ from .serializers import (
     UserSerializer,
     ConversationSerializer,
     MessageSerializer,
-    ChatSerializer,
+    MessageThreadSerializer,
 )
 
 # import permissions
@@ -251,13 +251,13 @@ class MessageViewSet(viewsets.ModelViewSet):
             return Message.objects.filter(conversation__in=user_conversation)
         return Message.objects.none()
 
-class ChatViewSet(viewsets.ModelViewSet):
+class MessageThreadViewSet(viewsets.ModelViewSet):
     """
-    API endpoint to returns chat history.
+    API endpoint to returns message thread history.
     """
 
-    queryset = Chat.objects.all()
-    serializer_class = ChatSerializer
+    queryset = MessageThread.objects.all()
+    serializer_class = MessageThreadSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["message"]

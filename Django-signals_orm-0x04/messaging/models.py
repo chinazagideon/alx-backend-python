@@ -1,13 +1,13 @@
 # messaging/models.py
 """
-This file contains the models for the chats app
+This file contains the models for the messaging app
 """
 
 from ast import mod
 from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from messaging.models import Message
+# from messaging.models import Message
 from django.conf import settings
 # from .models import Conversation
 # from uuid import uuid4
@@ -72,21 +72,24 @@ class Message(models.Model):
         help_text="The primary recipient of this message (optional, for direct notifications)."
     )
     message_body = models.TextField(null=False, blank=False)
-    content = models.TextField(null=False, blank=False)
+    content = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=MessageStatus.choices, default=MessageStatus.PENDING)
     sent_at = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    # track class changes 
+    edited = models.BooleanField(default=False)
     
 
     class Meta:
         verbose_name = _("message")
         verbose_name_plural = _("messages")
-        ordering = ["-sent_at"]
+        ordering = ["-timestamp"]
         constraints = [
             models.UniqueConstraint(fields=["message_id"], name="unique_message_id")
         ]
     
     def __str__(self):
-        return f"{self.message_body}"
+        return f"Message {self.message_id} from {self.sender.first_name} to {self.receiver.first_name}"
     
 class Notification(models.Model):
     """
@@ -115,7 +118,22 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user.first_name} about message {self.message} (Read: {self.is_read}"
-                                                                                               
+
+class MessageHistory(models.Model):
+    """
+    This model is used to store the message history
+    """
+    message = models.ForeignKey(settings.AUTH_MESSAGE_MODEL, on_delete=models.CASCADE, related_name="message_history")
+    old_content = models.TextField(null=False, blank=False)
+    edited_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['-edited_at']
+        verbose_name = "Message History"
+        verbose_name_plural = "Message Histories"
+
+    def __str__(self):
+        return f"Message {self.message.message_id} edited at {self.edited_at}"
+
 class Conversation(models.Model):
     """
     This model is used to store the conversation details
@@ -215,10 +233,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 # Create your models here.
-class Chat(models.Model):
-    chat_id = models.AutoField(primary_key=True)
+class MessageThread(models.Model):
+    thread_id = models.AutoField(primary_key=True)
     message = models.ForeignKey(
-        Message, on_delete=models.CASCADE, related_name="chats"
+        settings.AUTH_MESSAGE_MODEL, on_delete=models.CASCADE, related_name="message_threads"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

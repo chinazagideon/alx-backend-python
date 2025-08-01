@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('chats', '0001_initial'),
+        ('messaging', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='notification',
             name='message',
-            field=models.ForeignKey(help_text='the message that triggered this notification', on_delete=django.db.models.deletion.CASCADE, to='chats.message'),
+            field=models.ForeignKey(help_text='the message that triggered this notification', on_delete=django.db.models.deletion.CASCADE, to='messaging.message'),
         ),
     ]

@@ -32,7 +32,7 @@ AUTH_USER_MODEL = "messaging.User"  # overrides the default user model
 AUTH_CONVERSATION_MODEL = "messaging.Conversation"  # overrides the default conversation model
 
 AUTH_MESSAGE_MODEL = "messaging.Message"  # overrides the default message model
-AUTH_CHAT_MODEL = "messaging.Chat"  # overrides the default chat model
+AUTH_CHAT_MODEL = "messaging.messaging"  # overrides the default chat model
 
 # This is where users will be redirected for login if they need to authenticate
 # before authorizing an application. You can point this to Django's built-in
@@ -118,7 +118,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "messaging.apps.MessagingConfig",
     "user",
-    "uploads",
     # "message",
     "conversation",
     # third party apps

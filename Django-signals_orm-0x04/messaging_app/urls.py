@@ -25,9 +25,9 @@ urlpatterns = [
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
     # api
-    path('api/', include('chats.urls')),
+    path('api/', include('messaging.urls')),
 
-    # Include chats app URLs
-    # path('api/', include('chats.urls')),
+    # Include messaging app URLs
+    # path('api/', include('messaging.urls')),
     # path('api/auth/', auth_views.obtain_auth_token),
 ]

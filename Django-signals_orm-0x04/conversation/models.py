@@ -1,13 +1,13 @@
 from django.db import models
 from user.models import User
 from uuid import uuid4
-from chats.models import Chat
+from messaging.models import Message
 
 # Create your models here.
 class Conversation(models.Model):
     conversation_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     participants_id = models.ManyToManyField(User, related_name='participants')
-    chat_id = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='chat')
+    chat_id = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='chat')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -4,7 +4,7 @@ This file contains the serializers for the chats app
 """
 
 from rest_framework import serializers
-from .models import User, Conversation, Message, Chat
+from .models import User, Conversation, Message, MessageThread
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -81,11 +81,11 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["message_id"]
 
-class ChatSerializer(serializers.ModelSerializer):
+class MessageThreadSerializer(serializers.ModelSerializer):
     """
-    Serializer for the Chat model
+    Serializer for the MessageThread model
     """
 
     class Meta:
-        model = Chat
+        model = MessageThread
         fields = "__all__"
