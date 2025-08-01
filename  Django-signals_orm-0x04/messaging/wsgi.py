@@ -1,7 +1,5 @@
-# NOTE: this File is for Savanna Tests not in used by the application due to the name combination
-
 """
-WSGI config for messaging_app project.
+WSGI config for messaging project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -13,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'messaging_app.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'messaging.settings')
 
 application = get_wsgi_application()

@@ -1,7 +1,5 @@
-# NOTE: this File is for Savanna Tests not in used by the application due to the name combination
-
 """
-ASGI config for messaging_app project.
+ASGI config for messaging project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -13,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'messaging_app.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'messaging.settings')
 
 application = get_asgi_application()

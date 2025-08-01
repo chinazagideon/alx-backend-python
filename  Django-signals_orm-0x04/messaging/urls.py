@@ -1,7 +1,5 @@
-# NOTE: this File is for Savanna Tests not in used by the application due to the name combination
-
 """
-URL configuration for messaging_app project.
+URL configuration for messaging project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/

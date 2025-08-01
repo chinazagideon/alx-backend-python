@@ -1,3 +1,5 @@
+# NOTE: this File is for Savanna Tests not in used by the application due to the name combination
+
 """
 URL configuration for messaging_app project.
 
