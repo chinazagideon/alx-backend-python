@@ -69,6 +69,12 @@ OAUTH2_PROVIDER = {
     # This is a good security practice (Refresh Token Rotation).
     'ROTATE_REFRESH_TOKEN': True,
 }
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 # rest framework settings
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -258,4 +264,5 @@ LOGGING = {
             'propagate': True,
         },
     },
+
 }

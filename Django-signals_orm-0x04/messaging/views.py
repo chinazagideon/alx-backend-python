@@ -19,6 +19,8 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.http import HttpResponse, HttpRequest, JsonResponse
 
+from django.views.decorators.cache import cache_page # Import the cache_page decorator
+
 
 from django.http import HttpResponse
 from pprint import pprint
@@ -56,6 +58,7 @@ def serialize_message(message):
 
 
 @login_required
+@cache_page(60)
 def inbox(request):
     """
     Displays a user's inbox, showing only unread messages.
