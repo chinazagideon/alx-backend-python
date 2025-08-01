@@ -3,6 +3,8 @@
 This file contains the models for the chats app
 """
 
+from ast import mod
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from messaging.models import Message
@@ -70,8 +72,10 @@ class Message(models.Model):
         help_text="The primary recipient of this message (optional, for direct notifications)."
     )
     message_body = models.TextField(null=False, blank=False)
+    content = models.TextField(null=False, blank=False)
     status = models.CharField(max_length=20, choices=MessageStatus.choices, default=MessageStatus.PENDING)
     sent_at = models.DateTimeField(auto_now_add=True)
+    
 
     class Meta:
         verbose_name = _("message")
@@ -83,7 +87,7 @@ class Message(models.Model):
     
     def __str__(self):
         return f"{self.message_body}"
-
+    
 class Notification(models.Model):
     """
     Represents a notification for a user, typically triggered by a new message.
