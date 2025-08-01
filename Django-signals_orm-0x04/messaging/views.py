@@ -90,9 +90,9 @@ def get_conversation_json(request, conversation_id):
     """
     Get conversation's messages in threaded format
     """
-
+    user = request.user
     threaded_messages = get_threaded_messages(conversation_id)
-    return JsonResponse({'messages': threaded_messages}, status=200)
+    return JsonResponse({'messages': threaded_messages, 'user': user}, status=200)
 
 @login_required
 def delete_user(request: HttpRequest) -> HttpResponse:
