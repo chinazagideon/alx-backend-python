@@ -1,0 +1,174 @@
+2025-07-09 23:19:26,601 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:19:26,601 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:19:26,601 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:20:03,027 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:20:03,027 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:20:03,027 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:20:26,629 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:20:26,629 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:20:26,629 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:20:26,729 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:22:29,865 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:22:29,865 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:22:29,865 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:22:29,980 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:22:58,197 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:22:58,197 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:22:58,197 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:22:58,300 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:23:18,147 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:23:18,147 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:23:18,147 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:23:18,202 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:23:45,709 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:23:45,709 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:23:45,709 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:23:45,838 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:24:32,645 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:24:32,646 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:24:32,646 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:24:32,743 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:25:15,932 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:25:15,932 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:25:15,932 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:25:16,064 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:27:39,581 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:27:39,581 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:27:39,581 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:28:03,435 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:28:03,435 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:28:03,435 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:28:14,841 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:28:14,842 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:28:14,842 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:28:29,098 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:28:29,099 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:28:29,099 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:28:41,144 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:28:41,144 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:28:41,144 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:31:20,123 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:31:20,123 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:31:20,123 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:31:20,262 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:31:21,607 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:31:21,607 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:31:21,607 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:31:21,654 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:31:27,824 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:31:27,825 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:31:27,825 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:31:27,874 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:32:26,843 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:32:26,843 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:32:26,843 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:32:26,966 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:32:50,309 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:32:50,309 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:32:50,309 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:32:50,436 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:32:58,830 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:32:58,830 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:32:58,830 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:32:58,885 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:33:17,722 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:33:17,722 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:33:17,722 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:33:17,856 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:35:38,922 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:35:38,922 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:35:38,922 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:35:39,022 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:35:55,682 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:35:55,683 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:35:55,683 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:35:55,814 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:37:11,753 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:37:11,753 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:37:11,753 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:37:11,855 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:37:31,979 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:37:31,979 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:37:31,979 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:37:32,120 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:37:42,463 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:37:42,463 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:37:42,463 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:37:42,510 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:37:53,124 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:37:53,124 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:37:53,124 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:37:53,175 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:38:02,439 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:38:02,439 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:38:02,440 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:38:02,488 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:40:56,583 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:40:56,583 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:40:56,583 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:40:56,767 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:41:09,095 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:41:09,095 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:41:09,095 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:41:09,206 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:44:21,178 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:44:21,178 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:44:21,178 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:44:21,310 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:44:45,307 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:44:45,308 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:44:45,308 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:44:45,440 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:45:16,205 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:45:16,205 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:45:16,205 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:45:16,337 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:45:35,493 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:45:35,493 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:45:35,493 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:45:35,594 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:46:03,472 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:46:03,472 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:46:03,472 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:46:03,588 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:46:21,855 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:46:21,855 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:46:21,856 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:46:21,905 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:51:58,039 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:51:58,039 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:51:58,039 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:51:58,168 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:52:39,500 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:52:39,500 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:52:39,500 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:52:39,630 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:52:49,331 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:52:49,331 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:52:49,331 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:52:49,388 - INFO - Successfully wrote to file: logger.log
+2025-07-09 23:53:06,225 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:53:06,225 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:53:06,225 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:53:15,150 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:53:15,150 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:53:15,150 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:53:33,080 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:53:33,080 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:53:33,080 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:54:37,184 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:54:37,184 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:54:37,184 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:54:57,923 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:54:57,923 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:54:57,923 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:55:44,613 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:55:44,613 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:55:44,613 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:56:27,831 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:56:27,831 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:56:27,831 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:59:12,834 - INFO - Successfully wrote to file: example_log_file.txt
+2025-07-09 23:59:12,834 - INFO - Successfully read from file: example_log_file.txt
+2025-07-09 23:59:12,834 - WARNING - Attempted to read non-existent file: non_existent_file.txt
+2025-07-09 23:59:12,951 - INFO - Successfully wrote to file: logger.log

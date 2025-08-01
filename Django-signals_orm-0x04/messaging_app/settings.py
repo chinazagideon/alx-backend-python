@@ -28,11 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # define all the models to be used in the project
-AUTH_USER_MODEL = "chats.User"  # overrides the default user model
-AUTH_CONVERSATION_MODEL = "chats.Conversation"  # overrides the default conversation model
+AUTH_USER_MODEL = "messaging.User"  # overrides the default user model
+AUTH_CONVERSATION_MODEL = "messaging.Conversation"  # overrides the default conversation model
 
-AUTH_MESSAGE_MODEL = "chats.Message"  # overrides the default message model
-AUTH_CHAT_MODEL = "chats.Chat"  # overrides the default chat model
+AUTH_MESSAGE_MODEL = "messaging.Message"  # overrides the default message model
+AUTH_CHAT_MODEL = "messaging.Chat"  # overrides the default chat model
 
 # This is where users will be redirected for login if they need to authenticate
 # before authorizing an application. You can point this to Django's built-in
@@ -116,10 +116,10 @@ INSTALLED_APPS = [
     # my apps
     "messaging_app",
     "corsheaders",
-    "chats.apps.ChatsConfig",
+    "messaging.apps.MessagingConfig",
     "user",
     "uploads",
-    "messaging",
+    # "message",
     "conversation",
     # third party apps
     "rest_framework",
@@ -145,7 +145,7 @@ MIDDLEWARE = [
     # role based permission
     # 'chats.middleware.RolepermissionMiddleware',
     #rate limit message
-    'chats.middleware.OffensiveLanguageMiddleware',
+    'messaging.middleware.OffensiveLanguageMiddleware',
     #log request
     # 'chats.middleware.RequestLoggingMiddleware',
 
@@ -248,7 +248,7 @@ LOGGING = {
         },
     },
     'loggers': {
-        'chats': {
+        'messaging': {
             'handlers': ['console', 'file'],
             'level': 'WARNING',
             'propagate': True,
