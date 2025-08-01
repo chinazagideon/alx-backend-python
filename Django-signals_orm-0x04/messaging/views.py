@@ -54,6 +54,29 @@ def serialize_message(message):
         'replies': []
     }
 
+
+@login_required
+def inbox(request):
+    """
+    Displays a user's inbox, showing only unread messages.
+    This view uses the custom UnreadMessagesManager.
+    """
+    # Use the custom manager 'unread' to get all unread messages for the user.
+    # The .only() optimization is included within the manager's method.
+    unread_messages = Message.unread.unread_for_user(request.user)
+
+    # Note: `unread_messages` is a queryset, ready to be passed to a template
+    # for rendering. The .only() call inside the manager ensures the
+    # query is optimized.
+    
+    context = {
+        'unread_messages': unread_messages,
+    }
+
+    # reender message
+    return render(request, 'messaging/inbox.html', context)
+
+
 def get_threaded_messages(conversation_id):
     """
     fetch threaded messages
