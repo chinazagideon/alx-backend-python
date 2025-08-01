@@ -44,6 +44,7 @@ def serialize_message(message):
     """
     return{ 
         'id': str(message.id),
+        'receiver': message.receiver,
         'sender': message.sender.first_name+ ' '+ message.sender_last_name ,
         'message_body': message.message_body,
         'content':message.content,
