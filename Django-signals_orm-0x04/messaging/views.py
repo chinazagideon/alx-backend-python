@@ -3,6 +3,8 @@
 This file contains the views for the chats app
 """
 
+from email import message
+from uuid import UUID
 import django
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions, filters, status
@@ -15,7 +17,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, JsonResponse
 
 
 from django.http import HttpResponse
@@ -36,6 +38,61 @@ from .serializers import (
 # import permissions
 from .permissions import isParticipantOfConversation
 
+def serialize_message(message):
+    """
+    Helper function to convert message object to a dictionary
+    """
+    return{ 
+        'id': str(message.id),
+        'sender': message.sender.first_name+ ' '+ message.sender_last_name ,
+        'message_body': message.message_body,
+        'content':message.content,
+        'timestamp': message.timestamp.isoformat(),
+        'edited': message.edited,
+        'parent_id': str(message.parent_message.id) if message.message_parent else None,
+        'replies': []
+    }
+
+def get_threaded_messages(conversation_id):
+    """
+    fetch threaded messages
+    """
+
+    try: 
+        conversation = get_object_or_404(Conversation, id=UUID(conversation_id))
+    except ValueError:
+        return JsonResponse ({'error': 'Invalid conversation ID'}, status=400)
+
+    messages = list(Message.objects.filter(conversation=conversation).select_related('parent_message', 'sender').order_by('timestamp'))
+    message_dict = {str(msg.id): serialize_message(msg) for msg in messages}
+
+    threaded_list = []
+    for msg in messages:
+        if msg.parent_message:
+            #if parent message is in message object add as reply
+            parent_id_str = str(msg.parent_message.id)
+            if parent_id_str in message_dict:
+                message_dict[parent_id_str]['replies'].append(message_dict[str(msg.id)])
+            else:
+                # If the parent is not in the list (e.g., it's a message from another
+                # conversation, which should not happen, or a disconnected message),
+                # we treat it as a top-level message.
+                threaded_list.append(message_dict[str(msg.id)])
+        else:
+
+            # Add top-level messages to the main list
+            threaded_list.append(message_dict[str(msg.id)])
+    return threaded_list
+    
+@login_required
+def get_conversation_json(request, conversation_id):
+    """
+    Get conversation's messages in threaded format
+    """
+
+    threaded_messages = get_threaded_messages(conversation_id)
+    return JsonResponse({'messages': threaded_messages}, status=200)
+
 @login_required
 def delete_user(request: HttpRequest) -> HttpResponse:
     """
@@ -47,66 +104,6 @@ def delete_user(request: HttpRequest) -> HttpResponse:
         logout(request)
         messages.success(request, "Your account has been deleted")
         return redirect("home")
-
-def log_token_scopes(request, view_name, view_class=None):
-    """
-    Log the token scopes for debugging purposes
-    """
-    # logger.info(f"[{view_name}] HTTP Method: {request.method}")
-    
-    # Also print to console for immediate visibility during development
-    print(f"\n=== TOKEN SCOPE DEBUG [{view_name}] ===")
-    print(f"HTTP Method: {request.method}")
-    print(f"Request URL: {request.path}")
-    
-    if hasattr(request, 'auth') and request.auth:
-        token = request.auth
-        if hasattr(token, 'scope'):
-            # print(f"Token scopes: {token.scope}")
-            # print(f"Token is valid: {token.is_valid()}")
-            # print(f"Token is expired: {token.is_expired()}")
-            
-            # logger.info(f"[{view_name}] Token: {token}")
-            
-            # logger.info(f"[{view_name}] Token scopes: {token.scope}")
-            # logger.info(f"[{view_name}] Token is valid: {token.is_valid()}")
-            # logger.info(f"[{view_name}] Token is expired: {token.is_expired()}")
-            
-            # Get required scopes from the view class if provided
-            if view_class and hasattr(view_class, 'required_scopes'):
-                required_scopes = getattr(view_class, 'required_scopes', {})
-                current_method_scopes = required_scopes.get(request.method, [])
-                print(f"Required scopes for {request.method}: {current_method_scopes}")
-                print(f"All required scopes: {required_scopes}")
-                # logger.info(f"[{view_name}] Required scopes for {request.method}: {current_method_scopes}")
-                # logger.info(f"[{view_name}] All required scopes: {required_scopes}")
-                
-                # Test the actual token.is_valid() call that TokenHasScope uses
-                print(f"Testing token.is_valid({current_method_scopes}): {token.is_valid(current_method_scopes)}")
-                # logger.info(f"[{view_name}] token.is_valid({current_method_scopes}): {token.is_valid(current_method_scopes)}")
-                
-                # Show what TokenHasScope actually receives
-                print(f"TokenHasScope receives: required_scopes = {required_scopes}")
-                # logger.info(f"[{view_name}] TokenHasScope receives: required_scopes = {required_scopes}")
-            else:
-                print(f"No required_scopes found for {view_name}")
-                # logger.info(f"[{view_name}] No required_scopes found")
-        else:
-            print("Token has no scope attribute")
-            # logger.warning(f"[{view_name}] Token has no scope attribute")
-    else:
-        print("No token found in request")
-        # logger.warning(f"[{view_name}] No token found in request")
-    
-    print("=== END TOKEN SCOPE DEBUG ===\n")
-
-
-def test_logging(request):
-    """
-    Simple test endpoint to verify logging is working
-    """
-    log_token_scopes(request, "TestEndpoint")
-    return HttpResponse("Logging test completed - check console and debug.log")
 
 
 def filter_by_user(queryset, user_id):

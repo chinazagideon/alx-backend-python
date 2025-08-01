@@ -5,6 +5,7 @@ This file contains the models for the messaging app
 
 from ast import mod
 from pyexpat import model
+from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 # from messaging.models import Message
@@ -78,6 +79,14 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     # track class changes 
     edited = models.BooleanField(default=False)
+
+    parent_message = models.ForeignKey(
+        'self', 
+        on_delete=CASCADE,
+        related_name='replies',
+        null=True,
+        blank=True
+        )
     
 
     class Meta:
