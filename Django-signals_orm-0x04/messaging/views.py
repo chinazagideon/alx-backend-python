@@ -3,7 +3,8 @@
 This file contains the views for the chats app
 """
 
-from django.shortcuts import render
+import django
+from django.shortcuts import render, redirect
 from rest_framework import viewsets, permissions, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import User, Conversation, Message, MessageThread
@@ -11,6 +12,11 @@ from .permissions import TokenHasScope
 from rest_framework.response import Response
 # filters for the models
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.http import HttpResponse, HttpRequest
+
 
 from django.http import HttpResponse
 from pprint import pprint
@@ -30,6 +36,17 @@ from .serializers import (
 # import permissions
 from .permissions import isParticipantOfConversation
 
+@login_required
+def delete_user(request: HttpRequest) -> HttpResponse:
+    """
+    Delete the current user
+    """
+    if request.method == "POST":
+        user = request.user
+        user.delete()
+        logout(request)
+        messages.success(request, "Your account has been deleted")
+        return redirect("home")
 
 def log_token_scopes(request, view_name, view_class=None):
     """

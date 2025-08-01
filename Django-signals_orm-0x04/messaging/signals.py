@@ -1,7 +1,7 @@
 
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
-from .models import Notification, Message, MessageHistory
+from .models import Notification, Message, MessageHistory, Conversation
 from django.conf import settings
 
 import logging
@@ -52,3 +52,25 @@ def log_message_edit(sender, instance, **kwargs):
                 instance.save()
         except Message.DoesNotExist:
             logging.info(f"warning: message {instance.message_id} does not exist")
+
+@receiver(post_delete, sender=settings.AUTH_USER_MODEL)
+def cleanup_user_data(sender, instance, **kwargs):
+    """
+    Signal receiver to clean up all the user data after a User is deleted
+    """
+    try:
+        #delete user messages sender instance 
+        Message.objects.filter(sender=instance).delete()
+
+        #delete user messages receiver instance
+        Message.objects.filter(receiver=instance).delete()
+
+        #delete notifications
+        Notification.objects.filter(user=instance).delete()
+
+    except Exception as e:
+        logging.info(f"error {e}")
+
+
+
+

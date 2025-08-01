@@ -1,25 +1,109 @@
-# messaging/models.py
+# chats/models.py
 """
-This file contains the models for the messaging app
+This file contains the models for the chats app
 """
 
-from ast import mod
-from pyexpat import model
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-# from messaging.models import Message
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
+from messaging.models import Message
 from django.conf import settings
+
 # from .models import Conversation
 # from uuid import uuid4
 
-# from messaging.models import User # WATCHOUT: user defined in settings.py as Auth_User_Model might handle this differently
+# from chats.models import User # WATCHOUT: user defined in settings.py as Auth_User_Model might handle this differently
 from django.utils.translation import gettext_lazy as _
-User = settings.AUTH_USER_MODEL
+
+
+class Message(models.Model):
+    """
+    This model is used to store the message details
+    """
+
+    message_id = models.AutoField(primary_key=True)
+    conversation = models.ForeignKey(
+        settings.AUTH_CONVERSATION_MODEL,
+        on_delete=models.CASCADE,
+        related_name="messages",
+    )
+
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="sent_messages",
+        help_text="the user that sent this message",
+    )
+
+    receiver = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,  # if user is deleted set to null
+        related_name="received_messages",
+        null=True,
+        blank=True,
+        help_text="The primary recipient of this message (optional, for direct notifications).",
+    )
+    message_body = models.TextField(null=False, blank=False)
+    status = models.CharField(
+        max_length=20, choices=MessageStatus.choices, default=MessageStatus.PENDING
+    )
+    # sent_at = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("message")
+        verbose_name_plural = _("messages")
+        ordering = ["-sent_at"]
+        constraints = [
+            models.UniqueConstraint(fields=["message_id"], name="unique_message_id")
+        ]
+
+    def __str__(self):
+        return f"{self.message_body}"
+
+
+class Notification(models.Model):
+    """
+    Represents a notification for a user, typically triggered by a new message.
+    """
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="notifications",
+        help_text="User who receives this notification",
+    )
+    message = models.ForeignKey(
+        settings.AUTH_MESSAGE_MODEL,
+        on_delete=models.CASCADE,  # delete notification if message is deleted
+        help_text="the message that triggered this notification",
+    )
+
+    is_read = models.BooleanField(
+        default=False, help_text="Indicates if the user have read the message"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True, help_text="The timestamp when the notification was created"
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Notification"
+        verbose_name_plural = "Notifications"
+
+    def __str__(self):
+        return f"Notification for {self.user.first_name} about message {self.message} (Read: {self.is_read}"
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
-            raise ValueError('The Email field must be set')
+            raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -27,13 +111,13 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
 
         return self.create_user(email, password, **extra_fields)
 
@@ -44,96 +128,6 @@ class MessageStatus(models.TextChoices):
     DELIVERED = "delivered", "Delivered"
     READ = "read", "Read"
 
-class Message(models.Model):
-    """
-    This model is used to store the message details
-    """
-    
-    message_id = models.AutoField(primary_key=True)
-    conversation = models.ForeignKey(
-        settings.AUTH_CONVERSATION_MODEL, on_delete=models.CASCADE, related_name="messages"
-    )
-
-    sender = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='sent_messages',
-        help_text="the user that sent this message"
-    )
-
-    receiver = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL, #if user is deleted set to null
-        related_name='received_messages',
-        null=True,
-        blank=True,
-        help_text="The primary recipient of this message (optional, for direct notifications)."
-    )
-    message_body = models.TextField(null=False, blank=False)
-    content = models.TextField(null=True, blank=True)
-    status = models.CharField(max_length=20, choices=MessageStatus.choices, default=MessageStatus.PENDING)
-    sent_at = models.DateTimeField(auto_now_add=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    # track class changes 
-    edited = models.BooleanField(default=False)
-    
-
-    class Meta:
-        verbose_name = _("message")
-        verbose_name_plural = _("messages")
-        ordering = ["-timestamp"]
-        constraints = [
-            models.UniqueConstraint(fields=["message_id"], name="unique_message_id")
-        ]
-    
-    def __str__(self):
-        return f"Message {self.message_id} from {self.sender.first_name} to {self.receiver.first_name}"
-    
-class Notification(models.Model):
-    """
-    Represents a notification for a user, typically triggered by a new message.
-    """
-
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="notifications",
-        help_text="User who receives this notification"
-        )
-    message = models.ForeignKey(
-        settings.AUTH_MESSAGE_MODEL,
-        on_delete=models.CASCADE, # delete notification if message is deleted
-        help_text="the message that triggered this notification"
-    )
-
-    is_read = models.BooleanField(default=False, help_text="Indicates if the user have read the message")
-    created_at  = models.DateTimeField(auto_now_add=True, help_text="The timestamp when the notification was created")
-
-    class Meta:
-        ordering = ['-created_at']
-        verbose_name = "Notification"
-        verbose_name_plural = "Notifications"
-
-    def __str__(self):
-        return f"Notification for {self.user.first_name} about message {self.message} (Read: {self.is_read}"
-
-class MessageHistory(models.Model):
-    """
-    This model is used to store the message history
-    """
-    message = models.ForeignKey(settings.AUTH_MESSAGE_MODEL, on_delete=models.CASCADE, related_name="message_history")
-    old_content = models.TextField(null=False, blank=False)
-    edited_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="edited_messages")
-    edited_at = models.DateTimeField(auto_now=True)
-    class Meta:
-        ordering = ['-edited_at']
-        verbose_name = "Message History"
-        verbose_name_plural = "Message Histories"
-
-    def __str__(self):
-        return f"Message {self.message.message_id} edited at {self.edited_at}"
 
 class Conversation(models.Model):
     """
@@ -157,7 +151,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # this fields are inherited from the AbstractUser class
     user_id = models.AutoField(primary_key=True)
-    
+
     # this field is inherited from the AbstractUser class
     first_name = models.CharField(
         _("first name"),
@@ -210,16 +204,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["first_name", "last_name", "phone_number"]
 
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
         ordering = ["-created_at"]
-        constraints = [
-            models.UniqueConstraint(fields=["email"], name="unique_email")
-        ]
+        constraints = [models.UniqueConstraint(fields=["email"], name="unique_email")]
 
     def __str__(self):
         if self.first_name and self.last_name:
@@ -234,11 +226,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 # Create your models here.
-class MessageThread(models.Model):
-    thread_id = models.AutoField(primary_key=True)
-    message = models.ForeignKey(
-        settings.AUTH_MESSAGE_MODEL, on_delete=models.CASCADE, related_name="message_threads"
-    )
+class Chat(models.Model):
+    chat_id = models.AutoField(primary_key=True)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name="chats")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
