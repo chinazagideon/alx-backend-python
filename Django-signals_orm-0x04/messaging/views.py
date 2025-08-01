@@ -86,6 +86,16 @@ def get_threaded_messages(conversation_id):
     return threaded_list
     
 @login_required
+def get_unread_conversation(request, conversation_id):
+    """
+    Get unread User messages
+    """
+    unread_messages = Message.objects.for_user(request.user)
+    unread_conversation = unread_messages.filter(conversation_id=conversation_id)
+
+    return JsonResponse({'unread_conversation': unread_conversation}, status = 200)
+
+@login_required
 def get_conversation_json(request, conversation_id):
     """
     Get conversation's messages in threaded format

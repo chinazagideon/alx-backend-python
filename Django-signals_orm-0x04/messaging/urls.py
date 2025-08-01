@@ -12,7 +12,7 @@ from .views import (
     ConversationViewSet,
     MessageViewSet,
     MessageThreadViewSet,
-    test_logging,
+    # test_logging,
 )
 from rest_framework.authtoken import views as auth_views
 
@@ -40,7 +40,7 @@ urlpatterns = [
     path("auth/", auth_views.obtain_auth_token),
     path("profile/delete", views.delete_user, name="delete_user"),
     # test endpoint for logging
-    path("test-logging/", test_logging, name="test_logging"),
+    # path("test-logging/", test_logging, name="test_logging"),
     path(
         "api/conversation/<uuid:conversation_id>/",
         views.get_conversation_json,

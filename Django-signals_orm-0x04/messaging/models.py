@@ -4,6 +4,7 @@ This file contains the models for the messaging app
 """
 
 from ast import mod
+from os import read
 from pyexpat import model
 from tkinter import CASCADE
 from django.db import models
@@ -16,6 +17,19 @@ from django.conf import settings
 # from messaging.models import User # WATCHOUT: user defined in settings.py as Auth_User_Model might handle this differently
 from django.utils.translation import gettext_lazy as _
 User = settings.AUTH_USER_MODEL
+
+class UnreadMessagesManage(models.Manager):
+    """
+    Filter user unread messages
+    """
+    def for_user(self, user):
+        """
+        Returns queryset for a given user
+        """
+        return self.filter(
+            receiver=user,
+            read=False,
+        ).only('id', 'sender', 'conversation', 'timestamp', 'message_body')
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -80,9 +94,12 @@ class Message(models.Model):
     # track class changes 
     edited = models.BooleanField(default=False)
 
+    #track READ/UNREAD message status
+    read = models.BooleanField(default=False)
+
     parent_message = models.ForeignKey(
         'self', 
-        on_delete=CASCADE,
+        on_delete=models.CASCADE,
         related_name='replies',
         null=True,
         blank=True
