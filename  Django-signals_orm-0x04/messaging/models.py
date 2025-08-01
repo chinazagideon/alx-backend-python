@@ -49,6 +49,7 @@ class Message(models.Model):
         help_text="The primary recipient of this message (optional, for direct notifications).",
     )
     message_body = models.TextField(null=False, blank=False)
+    content = models.JSONField(null=False, blank=False)
     status = models.CharField(
         max_length=20, choices=MessageStatus.choices, default=MessageStatus.PENDING
     )
