@@ -48,6 +48,7 @@ def log_message_edit(sender, instance, **kwargs):
                     )
                 #update content edited to true
                 instance.edited = True
+                instance.edited_by = instance.sender
                 instance.save()
         except Message.DoesNotExist:
             logging.info(f"warning: message {instance.message_id} does not exist")
