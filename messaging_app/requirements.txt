@@ -1,0 +1,24 @@
+# Django Core
+Django>=5.2.4
+
+# Django REST Framework
+djangorestframework>=3.14.0
+
+# OAuth2 Provider
+django-oauth-toolkit>=3.0.1
+
+# Django Filters
+django-filter>=23.5
+
+# DRF Nested Routers
+drf-nested-routers>=0.93.4
+
+# CORS Headers
+django-cors-headers>=4.3.1
+
+# Additional dependencies that might be needed
+requests>=2.32.4
+Pillow>=10.0.0
+
+# Development dependencies (optional)
+python-decouple>=3.8 
