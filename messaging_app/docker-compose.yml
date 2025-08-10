@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=messaging_app.settings
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=messaging_app
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - STATIC_ROOT=/app/staticfiles
+      - STATIC_URL=/static/
+    depends_on:
+      - db
+    restart: unless-stopped
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=messaging_app
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:
+  static_volume:
+  media_volume: 

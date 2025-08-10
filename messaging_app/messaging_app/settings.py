@@ -12,20 +12,23 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv()
 
+STATIC_ROOT = os.getenv("STATIC_ROOT") or os.path.join(BASE_DIR, "staticfiles")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-p+(pk4#xbj(j5k$_81#7g88#j)a!@i(vonnf@w@6j5=87k68y)"
+SECRET_KEY = os.getenv("SECRET_KEY") or "django-insecure-p+(pk4#xbj(j5k$_81#7g88#j)a!@i(vonnf@w@6j5=87k68y)"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") if os.getenv("ALLOWED_HOSTS") else ["localhost", "127.0.0.1", "0.0.0.0"]
 
 # define all the models to be used in the project
 AUTH_USER_MODEL = "chats.User"  # overrides the default user model
@@ -34,10 +37,16 @@ AUTH_CONVERSATION_MODEL = "chats.Conversation"  # overrides the default conversa
 AUTH_MESSAGE_MODEL = "chats.Message"  # overrides the default message model
 AUTH_CHAT_MODEL = "chats.Chat"  # overrides the default chat model
 
+# Django settings module
+DJANGO_SETTINGS_MODULE = os.getenv("DJANGO_SETTINGS_MODULE", "messaging_app.settings")
+
 # This is where users will be redirected for login if they need to authenticate
 # before authorizing an application. You can point this to Django's built-in
 # admin login or a custom login view.
 LOGIN_URL = '/admin/login/' # Or '/accounts/login/' if you have a custom login app
+
+# Database settings
+DEFAULT_DATABASE = os.getenv("DEFAULT_DATABASE") or "mysql"
 
 OAUTH2_PROVIDER = {
     # Specify the grant types your authorization server will support.
@@ -164,8 +173,12 @@ WSGI_APPLICATION = "messaging_app.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": f"django.db.backends.{DEFAULT_DATABASE}",
+        "NAME": os.getenv("DB_NAME") or "messaging_app",
+        "USER": os.getenv("DB_USER") or "root",
+        "PASSWORD": os.getenv("DB_PASSWORD") or "root",
+        "HOST": os.getenv("DB_HOST") or "localhost",
+        "PORT": os.getenv("DB_PORT") or "3306",
     }
 }
 
@@ -204,7 +217,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = os.getenv("STATIC_URL") or "static/"
+
+# Media files (user uploads)
+MEDIA_URL = os.getenv("MEDIA_URL") or "/media/"
+MEDIA_ROOT = os.getenv("MEDIA_ROOT") or os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -249,3 +266,16 @@ LOGGING = {
         },
     },
 }
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",")
+CORS_ALLOW_CREDENTIALS = os.getenv("CORS_ALLOW_CREDENTIALS", "True").lower() == "true"
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "http://localhost:8000,http://127.0.0.1:8000").split(",")
+
+# OAuth2 settings from environment
+OAUTH2_PROVIDER['ACCESS_TOKEN_EXPIRE_SECONDS'] = int(os.getenv("OAUTH2_ACCESS_TOKEN_EXPIRE_SECONDS", "3600"))
+OAUTH2_PROVIDER['REFRESH_TOKEN_EXPIRE_SECONDS'] = int(os.getenv("OAUTH2_REFRESH_TOKEN_EXPIRE_SECONDS", "604800"))
+OAUTH2_PROVIDER['PKCE_REQUIRED'] = os.getenv("OAUTH2_PKCE_REQUIRED", "True").lower() == "true"
+OAUTH2_PROVIDER['ROTATE_REFRESH_TOKEN'] = os.getenv("OAUTH2_ROTATE_REFRESH_TOKEN", "True").lower() == "true"

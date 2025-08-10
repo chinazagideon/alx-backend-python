@@ -21,4 +21,6 @@ requests>=2.32.4
 Pillow>=10.0.0
 
 # Development dependencies (optional)
-python-decouple>=3.8 
+python-decouple>=3.8
+python-dotenv>=1.0.0
+mysqlclient>=2.1.0

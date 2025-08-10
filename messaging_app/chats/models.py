@@ -6,7 +6,7 @@ This file contains the models for the chats app
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from message.models import Message
-from .models import Conversation
+# from .models import Conversation
 from django.conf import settings
 # from uuid import uuid4
 
@@ -49,7 +49,7 @@ class Message(models.Model):
     
     message_id = models.AutoField(primary_key=True)
     conversation = models.ForeignKey(
-        Conversation, 
+        settings.AUTH_CONVERSATION_MODEL, 
         on_delete=models.CASCADE, 
         related_name="messages",
         help_text="The conversation this message belongs to."
@@ -57,14 +57,14 @@ class Message(models.Model):
 
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='sent_messages',
         help_text="the user that sent this message"
     )
 
     receiver = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL, #if user is deleted set to null
+        on_delete=models.CASCADE, #if user is deleted set to null
         related_name='received_messages',
         null=True,
         blank=True,
@@ -100,7 +100,7 @@ class Notification(models.Model):
     message = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE, # delete notification if message is deleted
-        related_name="the message that triggered this notification"
+        help_text="the message that triggered this notification"
     )
 
     is_read = models.BooleanField(default=False, help_text="Indicates if the user have read the message")
