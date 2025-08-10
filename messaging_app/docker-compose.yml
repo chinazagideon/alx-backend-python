@@ -31,7 +31,7 @@ services:
       - MYSQL_DATABASE=messaging_app
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
-      - MYSQL_HOST=db
+      - MYSQL_DB=messaging_app
     ports:
       - "3306:3306"
     restart: unless-stopped
