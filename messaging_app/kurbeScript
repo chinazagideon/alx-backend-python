@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Define the script name
+SCRIPT_NAME="kurbeScript"
+
+echo "Welcome to $SCRIPT_NAME! Let's get your local Kubernetes cluster up and running."
+
+# Step 1: Check if minikube is installed
+echo "Checking for minikube installation..."
+if ! command -v minikube &> /dev/null
+then
+    echo "minikube is not installed. Please install it to continue."
+    echo "You can find installation instructions at: https://minikube.sigs.k8s.io/docs/start/"
+    exit 1
+fi
+echo "minikube is installed! Great."
+
+# Step 2: Start the Kubernetes cluster
+echo "Starting minikube cluster..."
+minikube start --driver=docker
+if [ $? -eq 0 ]; then
+    echo "Minikube cluster has started successfully."
+else
+    echo "Failed to start minikube cluster. Please check for errors above."
+    exit 1
+fi
+
+# Step 3: Verify that the cluster is running
+echo "Verifying cluster status with kubectl..."
+kubectl cluster-info
+if [ $? -eq 0 ]; then
+    echo "Cluster info retrieved successfully. Your cluster is reachable."
+else
+    echo "Failed to retrieve cluster info. The cluster might not be ready yet."
+    exit 1
+fi
+
+# Step 4: Retrieve all available pods
+echo "Retrieving all available pods across all namespaces..."
+# The -A flag is a shortcut for --all-namespaces, which shows pods in all namespaces, not just the default one.
+kubectl get pods --all-namespaces
+
+echo "Script completed successfully!"
