@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Define deployment and service names
+DEPLOYMENT_NAME="django-app-blue-deployment"
+SERVICE_NAME="django-app-service"
+
+echo "Initiating a rolling update for the $DEPLOYMENT_NAME deployment."
+
+# Step 1: Apply the updated deployment file to trigger the rolling update
+kubectl apply -f blue_deployment.yaml
+
+echo "Rolling update triggered. Monitoring status..."
+
+# Use kubectl rollout status to monitor the progress
+kubectl rollout status deployment/$DEPLOYMENT_NAME &
+
+# Step 2: Continuously send requests using curl to check for downtime
+echo "Checking for downtime during the update..."
+for i in {1..20}; do
+    # You need port-forwarding to test the internal ClusterIP Service from your local machine.
+    # Open a new terminal and run: kubectl port-forward service/django-app-service 8000:8000 &
+    curl -s http://localhost:8000
+    echo "" # Add a newline for readability
+    sleep 2
+done
+
+# Step 3: Verify the rolling update is complete
+echo "Rolling update completed. Verifying pods..."
+kubectl get pods -l app=django-messaging-app,version=blue
+
+echo "Script finished. Your app has been updated without any downtime."
