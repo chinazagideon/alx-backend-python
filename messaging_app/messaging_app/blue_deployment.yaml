@@ -7,10 +7,12 @@ spec:
   selector:
     matchLabels:
       app: django-messaging-app
+      version: blue
   template:
     metadata:
       labels:
         app: django-messaging-app
+        version: blue
     spec:
       containers:
         - name: django-messaging-app
