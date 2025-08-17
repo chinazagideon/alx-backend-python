@@ -1,0 +1,25 @@
+#!/bin/bash
+
+DJANGO_APP_DEPLOYMENT="django-app-deployment"
+
+echo "scale and monitoring script"
+
+# scale the deployment to 3 replicas
+kubectl scale deployment/$DJANGO_APP_DEPLOYMENT --replicas=3
+
+if [ $? -ne 0 ]; then
+    echo "Failed to scale the deployment"
+    exit 1
+fi
+
+# wait for 15 seconds
+sleep 15
+
+# get the pods
+kubectl get pods -l app=django-messaging-app
+
+# run wrk to test the deployment
+wrk -t4 -c100 -d10s http://localhost:8000
+
+# get the top pods
+kubectl top pod -l app=django-messaging-app
