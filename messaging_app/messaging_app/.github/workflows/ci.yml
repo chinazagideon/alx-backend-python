@@ -15,7 +15,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test_db
+          MYSQL_DATABASE: messaging_app
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=10s --health-timeout=5s --health-retries=10
@@ -34,5 +34,20 @@ jobs:
         
       - name: Run Tests
         env:
-          DATABASE_URL: mysql://root:root@127.0.0.1:3306/test_db
-        run: python3 manage.py test
+          DATABASE_URL: mysql://root:root@127.0.0.1:3306/messaging_app
+        run: python3 manage.py pytest
+  lint:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Code
+          uses: actions/checkout@v4
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: "3.11"
+   
+        - name: Install Flake8
+          run: pip3 install flake8
+          
+        - name: Run Flake8
+          run: flake8 .    
