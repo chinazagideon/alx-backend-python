@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t bill25concept/django-message-app:latest .'
+                sh 'docker build -t bill25concept/django-message-app:latest . '
             }
         }
         stage ('Push') {
