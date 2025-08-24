@@ -21,21 +21,28 @@ jobs:
         options: --health-cmd="mysqladmin ping -h 127.0.0.1" --health-interval=10s --health-timeout=5s --health-retries=10
     
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
         
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          
-      - name: Install Dependencies
-        run: pip3 install -r messaging_app/requirements.txt
-        
-      - name: Run Tests
-        env:
-          DATABASE_URL: mysql://root:root@127.0.0.1:3306/messaging_app
-        run: python3 manage.py pytest
+    - name: Install Dependencies
+      run: pip3 install -r messaging_app/requirements.txt
+      
+    - name: Run Tests and Generate Coverage
+      run: |
+        pip3 install coverage
+        pytest --junitxml=reports/tests.xml --cov=.
+        coverage xml
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v4
+      with:
+          name: coverage-report
+          path: coverage.xml
+
   lint:
       runs-on: ubuntu-latest
       steps:
